@@ -18,6 +18,7 @@ The following guides illustrate how to use some features concretely:
 * [Building REST services with Spring](https://spring.io/guides/tutorials/rest/)
 * [Accessing Data with JPA](https://spring.io/guides/gs/accessing-data-jpa/)
 * [Handling Form Submission](https://spring.io/guides/gs/handling-form-submission/)
+* [Accessing data with MySQL](https://spring.io/guides/gs/accessing-data-mysql/)
 
 ### Maven Parent overrides
 

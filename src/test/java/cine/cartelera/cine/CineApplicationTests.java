@@ -1,10 +1,10 @@
-package cartelera.cine;
+package cine.cartelera.cine;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class CinesaApplicationTests {
+class CineApplicationTests {
 
 	@Test
 	void contextLoads() {
