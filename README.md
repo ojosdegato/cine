@@ -5,7 +5,7 @@ TAREAS DEL PROYECTO CARTELERA DE CINE
 
 Tareas que vamos a implementar en el proyecto:
 
-   •	Películas disponibles
+   •	Películas disponibles (Javier)
 *   Long id
 *   String título
 *   String género
@@ -14,24 +14,26 @@ Tareas que vamos a implementar en el proyecto:
 *   String Sinopsis
 *   String tráiler de cada película
 
-    •	Proyección
+    •	Proyección (Marcos)
 *    Long id
 *    LocaDateTime día_hora
 *    Sala sala (OnetoMany) 
 *    Boolean asignada
 
-    •	 PeliculaActor 
+    •	 PeliculaActor (Iñigo)
 *    Long idPelicula
 *    Long idActor
 *    UserRole rol
 
-   •	Disponibilidad de entradas
+   •	Disponibilidad de entradas (David)
 *   Long id
 *   Int aforo de la sala
 *   Int asientos ocupados
 *	Double Precio de la entrada
 
+Hacer entidades y repositorio
 
+Utilizamos la base de datos H2
 
 Tareas que tenemos dudas en implementar:
 
