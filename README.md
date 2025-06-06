@@ -5,10 +5,33 @@ TAREAS DEL PROYECTO CARTELERA DE CINE
 
 Tareas que vamos a implementar en el proyecto:
 
-•	Películas disponibles (título, género, duración, clasificación por edad, Sinopsis y tráiler de cada película,).
-•	Horarios de proyección (día, hora, sala asignada).
-•	Disponibilidad de entradas (aforo de la sala, asientos ocupados).
-•	Precio de la entrada (normal, descuento por edad, promociones).
+   •	Películas disponibles
+*   Long id
+*   String título
+*   String género
+*   int duración
+*   int clasificación por edad
+*   String Sinopsis
+*   String tráiler de cada película
+
+    •	Proyección
+*    Long id
+*    LocaDateTime día_hora
+*    Sala sala (OnetoMany) 
+*    Boolean asignada
+
+    •	 PeliculaActor 
+*    Long idPelicula
+*    Long idActor
+*    UserRole rol
+
+   •	Disponibilidad de entradas
+*   Long id
+*   Int aforo de la sala
+*   Int asientos ocupados
+*	Double Precio de la entrada
+
+
 
 Tareas que tenemos dudas en implementar:
 
