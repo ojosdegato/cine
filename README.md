@@ -5,7 +5,7 @@ TAREAS DEL PROYECTO CARTELERA DE CINE
 
 Tareas que vamos a implementar en el proyecto:
 
-   •	Películas disponibles (Javier)
+   •	Película (Javier)
 *   Long id
 *   String título
 *   String género
@@ -20,12 +20,19 @@ Tareas que vamos a implementar en el proyecto:
 *    Sala sala (OnetoMany) 
 *    Boolean asignada
 
-    •	 PeliculaActor (Iñigo)
+   •	Actor (Iñigo)
+*   Long id
+*   String nombre
+*   String apellido
+*   LocalDateTime fecha_nac
+*   String nacionalidad
+
+      •	 PeliculaActor (Iñigo)
 *    Long idPelicula
 *    Long idActor
 *    UserRole rol
 
-   •	Disponibilidad de entradas (David)
+   •	Ticket (David)
 *   Long id
 *   Int aforo de la sala
 *   Int asientos ocupados
