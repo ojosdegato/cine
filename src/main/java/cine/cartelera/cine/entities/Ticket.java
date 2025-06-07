@@ -9,6 +9,7 @@ import lombok.Setter;
 @Getter
 @Entity // Indica que esta clase es una tabla
 @Table(name = "TICKET") // Nombre de la tabla en H2
+
 public class Ticket {
 
     // Getters y Setters
