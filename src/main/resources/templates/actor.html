@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gestión de Actores</title>
+  <style>
+    /* Estilos CSS básicos para mejorar la legibilidad */
+    body {
+        font-family: Arial, sans-serif;
+        margin: 20px;
+        background-color: #f4f4f4;
+        color: #333;
+    }
+    h1, h2 {
+        color: #0056b3;
+    }
+    form {
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        margin-bottom: 30px;
+    }
+    form div {
+        margin-bottom: 15px;
+    }
+    label {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: bold;
+    }
+    input[type="text"], input[type="date"] {
+        width: calc(100% - 22px);
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+    }
+    button {
+        background-color: #007bff;
+        color: white;
+        padding: 10px 15px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 16px;
+    }
+    button:hover {
+        background-color: #0056b3;
+    }
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+        background-color: #fff;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    th, td {
+        border: 1px solid #ddd;
+        padding: 12px;
+        text-align: left;
+    }
+    th {
+        background-color: #e9ecef;
+        color: #495057;
+    }
+    tr:nth-child(even) {
+        background-color: #f8f9fa;
+    }
+    .section-separator {
+        margin: 40px 0;
+        border-bottom: 1px solid #ccc;
+    }
+  </style>
+</head>
+<body>
+<h1>Gestión de Actores</h1>
+
+<div class="section-separator"></div>
+
+<h2>Añadir Nuevo Actor</h2>
+<form id="addActorForm">
+  <div>
+    <label for="nombre">Nombre:</label>
+    <input type="text" id="nombre" name="nombre" required>
+  </div>
+  <div>
+    <label for="apellido">Apellido:</label>
+    <input type="text" id="apellido" name="apellido" required>
+  </div>
+  <div>
+    <label for="fechaNacimiento">Fecha de Nacimiento:</label>
+    <input type="date" id="fechaNacimiento" name="fechaNacimiento">
+  </div>
+  <button type="submit">Añadir Actor</button>
+</form>
+
+<div class="section-separator"></div>
+
+<h2>Listado de Actores</h2>
+<table id="actorsTable">
+  <thead>
+  <tr>
+    <th>ID</th>
+    <th>Nombre</th>
+    <th>Apellido</th>
+    <th>Fecha de Nacimiento</th>
+    <th>Acciones</th>
+  </tr>
+  </thead>
+  <tbody>
+  <!-- Aquí se cargarían los datos de los actores dinámicamente -->
+  <tr>
+    <td>1</td>
+    <td>Tom</td>
+    <td>Hanks</td>
+    <td>1956-07-09</td>
+    <td>
+      <button onclick="editActor(1)">Editar</button>
+      <button onclick="deleteActor(1)">Eliminar</button>
+    </td>
+  </tr>
+  <tr>
+    <td>2</td>
+    <td>Meryl</td>
+    <td>Streep</td>
+    <td>1949-06-22</td>
+    <td>
+      <button onclick="editActor(2)">Editar</button>
+      <button onclick="deleteActor(2)">Eliminar</button>
+    </td>
+  </tr>
+  <!-- Más filas de actores aquí -->
+  </tbody>
+</table>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+      // fetchActors(); // Descomentar para cargar actores al iniciar la página
+      document.getElementById('addActorForm').addEventListener('submit', function(event) {
+          event.preventDefault();
+          const nombre = document.getElementById('nombre').value;
+          const apellido = document.getElementById('apellido').value;
+          const fechaNacimiento = document.getElementById('fechaNacimiento').value;
+          const newActor = { nombre: nombre, apellido: apellido, fechaNacimiento: fechaNacimiento || null };
+          console.log('Datos del nuevo actor a enviar:', newActor);
+          fetch('/api/actores', {
+              method: 'POST', headers: { 'Content-Type': 'application/json', }, body: JSON.stringify(newActor),
+          })
+          .then(response => {
+              if (!response.ok) { return response.json().then(err => { throw new Error(err.message || 'Error desconocido'); }); }
+              return response.json();
+          })
+          .then(data => {
+              console.log('Actor añadido con éxito:', data);
+              alert('Actor añadido con éxito! ID: ' + data.id);
+              document.getElementById('addActorForm').reset();
+              // fetchActors();
+          })
+          .catch((error) => {
+              console.error('Error:', error); alert('Hubo un error al añadir el actor: ' + error.message);
+          });
+      });
+  });
+  function fetchActors() {
+      fetch('/api/actores')
+          .then(response => { if (!response.ok) { throw new Error('Error al cargar actores: ' + response.statusText); } return response.json(); })
+          .then(actors => {
+              const tableBody = document.getElementById('actorsTable').getElementsByTagName('tbody')[0];
+              tableBody.innerHTML = '';
+              actors.forEach(actor => {
+                  let row = tableBody.insertRow();
+                  row.insertCell(0).textContent = actor.id; row.insertCell(1).textContent = actor.nombre;
+                  row.insertCell(2).textContent = actor.apellido; row.insertCell(3).textContent = actor.fechaNacimiento || 'N/A';
+                  let actionsCell = row.insertCell(4);
+                  actionsCell.innerHTML = `<button onclick="editActor(${actor.id})">Editar</button><button onclick="deleteActor(${actor.id})">Eliminar</button>`;
+              });
+          })
+          .catch(error => console.error('Error al cargar actores:', error));
+  }
+  function editActor(id) { alert('Lógica de edición para actor con ID: ' + id); }
+  function deleteActor(id) {
+      if (confirm('¿Estás seguro de que quieres eliminar al actor con ID: ' + id + '?')) {
+          fetch(`/api/actores/${id}`, { method: 'DELETE', })
+          .then(response => {
+              if (response.status === 204) { alert('Actor eliminado con éxito!'); /* fetchActors(); */ }
+              else if (response.status === 404) { alert('Actor no encontrado.'); }
+              else { throw new Error('Error al eliminar actor: ' + response.statusText); }
+          })
+          .catch(error => console.error('Error:', error));
+      }
+  }
+</script>
+</body>
+</html>
