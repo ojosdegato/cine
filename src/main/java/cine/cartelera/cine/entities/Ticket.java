@@ -1,6 +1,7 @@
 package cine.cartelera.cine.entities;
 
 import jakarta.persistence.*; // o javax.persistence.* si usas Jakarta EE 8 o Java EE
+
 import lombok.Getter;
 import lombok.Setter;
 
