@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface TicketRepository extends JpaRepository<Ticket, Long> {
+
     // Buscar tickets por aforo de la sala
     List<Ticket> findByAforoDeLaSala(int aforoDeLaSala);
 
