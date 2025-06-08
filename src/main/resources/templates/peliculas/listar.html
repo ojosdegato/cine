@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Listado de Películas</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 20px; }
+    h1 { color: #333; }
+    table { width: 100%; border-collapse: collapse; }
+    th, td { padding: 8px 12px; border: 1px solid #ccc; text-align: left; }
+    th { background-color: #f0f0f0; }
+    a { text-decoration: none; color: #007bff; }
+    a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+<h1>Listado de Películas</h1>
+
+<p><a th:href="@{/peliculas/nueva}">➕ Nueva Película</a></p>
+
+<table>
+  <thead>
+  <tr>
+    <th>Título</th>
+    <th>Género</th>
+    <th>Duración</th>
+    <th>Edad</th>
+    <th>Acciones</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr th:each="p : ${peliculas}">
+    <td th:text="${p.titulo}">Título</td>
+    <td th:text="${p.genero}">Género</td>
+    <td th:text="${p.duracion + ' min'}">Duración</td>
+    <td th:text="${p.clasificacionEdad + '+'}">Edad</td>
+    <td>
+      <a th:href="@{'/peliculas/editar/' + ${p.id}}">✏️ Editar</a> |
+      <a th:href="@{'/peliculas/eliminar/' + ${p.id}}" onclick="return confirm('¿Eliminar esta película?')">🗑️ Eliminar</a>
+    </td>
+  </tr>
+  </tbody>
+</table>
+</body>
+</html>
