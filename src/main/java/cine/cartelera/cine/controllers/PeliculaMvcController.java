@@ -7,7 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
-@RequestMapping(value = "/peliculas")
+@RequestMapping("/peliculas")
 public class PeliculaMvcController {
 
     private final PeliculaService peliculaService;
