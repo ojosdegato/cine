@@ -9,7 +9,7 @@ import org.springframework.context.ApplicationContext;
 import java.util.List;
 
 @SpringBootApplication
-public class CineApplication {
+public class Main {
 
 	public static void main(String[] args) {
 
@@ -34,4 +34,5 @@ public class CineApplication {
 
 		System.out.println("🎬 Películas insertadas correctamente en la base de datos H2.");
 	}
+
 }
