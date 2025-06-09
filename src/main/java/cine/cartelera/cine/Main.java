@@ -14,7 +14,7 @@ public class Main {
 	public static void main(String[] args) {
 
 		// Iniciar el contexto de Spring
-		ApplicationContext context = SpringApplication.run(CineApplication.class, args);
+		ApplicationContext context = SpringApplication.run(Main.class, args);
 
 		// Obtener el repositorio desde el contexto
 		PeliculaRepository peliculaRepository = context.getBean(PeliculaRepository.class);

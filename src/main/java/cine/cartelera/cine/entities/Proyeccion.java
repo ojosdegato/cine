@@ -17,7 +17,8 @@ public class Proyeccion {
     @Column(nullable = false)
     private LocalDateTime horaSesion;
 
-    @OneToMany(mappedBy = "sala")
+    @OneToMany
+    @JoinColumn(name="Proyeccion_id")
     private List<Sala> salas = new ArrayList<>();
 
     public Proyeccion(){}
