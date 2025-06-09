@@ -7,9 +7,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class InicioController {
 
 
-    @GetMapping({"/", "/index"}) // http://localhost:8081/index
+    @GetMapping({"/"}) // http://localhost:8081/index
     public String inicio() {
-        return "index"; // nombre archivo html (index.html)
+        return "/index"; // nombre archivo html (index.html)
     }
 
 
