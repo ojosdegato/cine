@@ -1,7 +1,10 @@
 package cine.cartelera.cine.repositories;
 
+import cine.cartelera.cine.entities.Proyeccion;
 import cine.cartelera.cine.entities.Ticket;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+
 import java.util.List;
 
 public interface TicketRepository extends JpaRepository<Ticket, Long> {
@@ -19,7 +22,8 @@ public interface TicketRepository extends JpaRepository<Ticket, Long> {
     List<Ticket> findByAsientosOcupados(int asientosOcupados);
 
     // Buscar tickets con asientos ocupados dentro de un rango
-    List<Ticket> findByAsientosOcupadosBetween(int minAsientos, int maxAsientos);
+    @Query("select p from Ticket t where t.AsientosOcupados between :minAsientosOcupados and :maxAsientosOcupados")
+    List<Ticket> findByAsientosOcupadosBetween(int minAsientosOcupados, int maxAsientosOcupados);
 
     // Buscar tickets con aforo y asientos ocupados específicos
     List<Ticket> findByAforoDeLaSalaAndAsientosOcupados(int aforoDeLaSala, int asientosOcupados);
@@ -29,4 +33,10 @@ public interface TicketRepository extends JpaRepository<Ticket, Long> {
 
     // Contar tickets según los asientos ocupados
     long countByAsientosOcupados(int asientosOcupados);
+
+    // Busca tickets asociados a una proyección por Id
+    List<Ticket> findByProyeccionId(Long proyeccionId);
+
+
+
 }
