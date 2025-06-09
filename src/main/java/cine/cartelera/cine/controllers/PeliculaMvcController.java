@@ -7,7 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
-@RequestMapping(value = "templates.peliculas")
+@RequestMapping(value = "/peliculas")
 public class PeliculaMvcController {
 
     private final PeliculaService peliculaService;
@@ -20,14 +20,14 @@ public class PeliculaMvcController {
     @GetMapping
     public String listarPeliculas(Model model) {
         model.addAttribute("peliculas", peliculaService.listarTodas());
-        return "templates/peliculas/listar";
+        return "peliculas/listar";
     }
 
     // Formulario para nueva película
     @GetMapping("/nueva")
     public String mostrarFormulario(Model model) {
         model.addAttribute("pelicula", new Pelicula());
-        return "templates/peliculas/formulario";
+        return "peliculas/formulario";
     }
 
     // Guardar película nueva o editada
@@ -41,7 +41,7 @@ public class PeliculaMvcController {
     @GetMapping("/editar/{id}")
     public String editarPelicula(@PathVariable Long id, Model model) {
         peliculaService.buscarPorId(id).ifPresent(pelicula -> model.addAttribute("pelicula", pelicula));
-        return "templates/formulario";
+        return "peliculas/formulario";
     }
 
     // Eliminar
