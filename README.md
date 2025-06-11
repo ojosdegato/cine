@@ -5,7 +5,7 @@ TAREAS DEL PROYECTO CARTELERA DE CINE
 
 Tareas que vamos a implementar en el proyecto:
 
-   •	Película (Javier)
+   •	Película (Javier Cachón)
 *   Long id
 *   String título
 *   String género
@@ -38,9 +38,11 @@ Tareas que vamos a implementar en el proyecto:
 *   Int asientos ocupados
 *	Double Precio de la entrada
 
-Hacer entidades y repositorio
+Hacer entidades y repositorio, controladores, servicios y HTMLs.
 
 Utilizamos la base de datos H2
+
+Implementar inicio.html para enlazar todos los html del proyecto y pagina error.html (Javier Cachón)
 
 Tareas que tenemos dudas en implementar:
 
