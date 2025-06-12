@@ -23,7 +23,7 @@ public class Proyeccion {
     private Long id;
 
     @Column(nullable = false)
-    private LocalDateTime horaSesion;
+    private LocalDateTime fechaHora;
 
     @ManyToOne
     @JoinColumn(name = "Sala_id")

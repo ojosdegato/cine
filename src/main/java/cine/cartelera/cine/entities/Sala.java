@@ -18,7 +18,7 @@ public class Sala {
     private Long id;
 
     private String nombre;
-    private int aforoMaximo;
+    private int aforo;
     private int asientosDisponibles;
     private String tipoSala;
 
