@@ -27,11 +27,11 @@ public class Proyeccion {
 
     @ManyToOne
     @JoinColumn(name = "Sala_id")
-    private List<Sala> sala = new ArrayList<>();
+    private Sala sala;
 
     @ManyToOne
     @JoinColumn(name = "Pelicula_id")
-    private List<Pelicula> pelicula = new ArrayList<>();
+    private Pelicula pelicula;
 
     public LocalDateTime getFechaHora() {
         return null;
