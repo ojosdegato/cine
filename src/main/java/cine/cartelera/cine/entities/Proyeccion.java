@@ -1,19 +1,11 @@
 package cine.cartelera.cine.entities;
 
 import jakarta.persistence.*;
-import lombok.*;
-
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 
-@Getter
-@Setter
-@ToString(exclude = {"sala","pelicula"})
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
 @Entity
 @Table(name="Proyeccion")
 public class Proyeccion {
@@ -23,17 +15,50 @@ public class Proyeccion {
     private Long id;
 
     @Column(nullable = false)
-    private LocalDateTime fechaHora;
+    private LocalDateTime horaSesion;
 
-    @ManyToOne
-    @JoinColumn(name = "Sala_id")
-    private Sala sala;
+    @OneToMany
+    @JoinColumn(name="Proyeccion_id")
+    private List<Sala> salas = new ArrayList<>();
 
-    @ManyToOne
-    @JoinColumn(name = "Pelicula_id")
-    private Pelicula pelicula;
+    public Proyeccion(){}
 
-    public LocalDateTime getFechaHora() {
-        return null;
+    public Proyeccion(Long id, LocalDateTime horaSesion, List<Sala> salas) {
+        this.id = id;
+        this.horaSesion = horaSesion;
+        this.salas = salas;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public LocalDateTime getHoraSesion() {
+        return horaSesion;
+    }
+
+    public void setHoraSesion(LocalDateTime horaSesion) {
+        this.horaSesion = horaSesion;
+    }
+
+    public List<Sala> getSalas() {
+        return salas;
+    }
+
+    public void setSalas(List<Sala> salas) {
+        this.salas = salas;
+    }
+
+    @Override
+    public String toString() {
+        return "Proyeccion{" +
+                "id=" + id +
+                ", horaSesion=" + horaSesion +
+                ", salas=" + salas +
+                '}';
     }
 }
