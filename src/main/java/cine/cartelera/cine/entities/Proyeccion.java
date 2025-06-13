@@ -35,5 +35,6 @@ public class Proyeccion {
 
     public LocalDateTime getFechaHora() {
         return null;
+
     }
 }
