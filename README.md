@@ -42,7 +42,7 @@ Hacer entidades y repositorio, controladores, servicios y HTMLs.
 
 Utilizamos la base de datos H2
 
-Implementar inicio.html para enlazar todos los html del proyecto y pagina error.html (Javier Cachón)
+Implementar inicio.html con logo para enlazar todos los html del proyecto y pagina error.html (Javier Cachón)
 
 Tareas que tenemos dudas en implementar:
 
