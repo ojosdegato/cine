@@ -10,8 +10,8 @@ import jakarta.persistence.Id;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-
 @Entity
+@Table(name="Sala")
 public class Sala {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
