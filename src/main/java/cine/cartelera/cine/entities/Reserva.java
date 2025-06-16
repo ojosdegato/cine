@@ -12,6 +12,7 @@ import lombok.*;
 @Builder
 @Entity
 @Table(name="Reservas")
+
 public class Reserva {
 
     @Id

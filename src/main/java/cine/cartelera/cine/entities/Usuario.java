@@ -13,6 +13,7 @@ import lombok.*;
 @Builder
 @Entity
 @Table(name="Usuarios")
+
 public class Usuario {
 
     @Id
