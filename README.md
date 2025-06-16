@@ -1,7 +1,29 @@
 Añadiendo el README.md al repositorio https://github.com/ojosdegato/cine.git
 Creación rama ojosdegato
 
+Tecnologías:
+* Spring Boot
+* HTML, Bootstrap CSS
+* Thymeleaf
+* Base de datos: H2 y eventualmente MySQL
+* Git y GitHub
+
 TAREAS DEL PROYECTO CARTELERA DE CINE
+
+Grupo 3: Cartelera de cine https://github.com/ojosdegato/cine
+* Entidades JPA `@Entity`: Pelicula, Genero, Usuario, Proyeccion, Reserva
+* Marcos González
+* David Jiménez
+* Javier Cachón
+* Íñigo Lamadrid
+* Jose Alejandro Cobaria
+* Entidades:
+    * Pelicula ManyToOne Categoria-Genero
+    * Proyeccion: ManyToOne Pelicula
+    * Reserva ManyToOne Usuario
+    * Reserva ManyToOne Proyeccion
+        * Ticket ManyToOne Reserva (opcional, no haría falta, la reserva ya serviría)
+
 
 Tareas que vamos a implementar en el proyecto:
 
@@ -38,11 +60,11 @@ Tareas que vamos a implementar en el proyecto:
 *   Int asientos ocupados
 *	Double Precio de la entrada
 
-Hacer entidades y repositorio, controladores, servicios y HTMLs.
+Hacer entidades y repositorios, controladores, servicios, HTMLs, CSS, Tablas BD en data.sql.
 
 Utilizamos la base de datos H2
 
-Implementar inicio.html con logo para enlazar todos los html del proyecto y pagina error.html (Javier Cachón)
+Implementar start.html con logo para enlazar todos los html del proyecto y pagina error.html + CSS (Javier Cachón)
 
 Tareas que tenemos dudas en implementar:
 
