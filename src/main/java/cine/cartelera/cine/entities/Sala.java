@@ -2,6 +2,9 @@ package cine.cartelera.cine.entities;
 import jakarta.persistence.*;
 import lombok.*;
 
+
+
+
 @Getter
 @Setter
 @ToString
