@@ -22,7 +22,8 @@ public class Main {
 		 PeliculaActorRepository peliculaActorRepository = context.getBean(PeliculaActorRepository.class);
 		 ProyeccionRepository proyeccionRepository = context.getBean(ProyeccionRepository.class);
 		 SalaRepository salaRepository = context.getBean(SalaRepository.class);
-		 TicketRepository ticketRepository = context.getBean(TicketRepository.class);
+		 ReservaRepository reservaRepository = context.getBean(ReservaRepository.class);
+		 UsuarioRepository usuarioRepository = context.getBean(UsuarioRepository.class);
 
 	}
 }

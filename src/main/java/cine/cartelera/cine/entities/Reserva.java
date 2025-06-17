@@ -4,6 +4,9 @@ package cine.cartelera.cine.entities;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+
 @Getter
 @Setter
 @ToString (exclude = {"proyeccion", "usuario"}) //
@@ -11,7 +14,7 @@ import lombok.*;
 @AllArgsConstructor
 @Builder
 @Entity
-@Table(name="Reservas")
+@Table(name="reservas")
 
 public class Reserva {
 
@@ -40,6 +43,7 @@ public class Reserva {
     private String estadoReserva; // Puede ser "PENDIENTE", "CONFIRMADA", "CANCELADA"
 
     @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
     private String metodoPago; // Puede ser "TARJETA", "EFECTIVO", etc.
 
     @Column(nullable = false)
@@ -48,11 +52,9 @@ public class Reserva {
     @Column(nullable = false)
     private String tipoEntrada; // Puede ser "NORMAL" o "DIA_ESPECTADOR"
 
+    public LocalDateTime getFechaProyeccion() {
+        return null;
+    }
 
-
-
-
-
-
-
+    public void setPrecioEntrada(BigDecimal bigDecimal) {}
 }

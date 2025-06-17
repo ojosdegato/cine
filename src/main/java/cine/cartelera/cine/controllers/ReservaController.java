@@ -120,6 +120,42 @@ public class ReservaController {
         return "reservas/listar";
     }
     // Buscar reservas por fecha de reserva
+    @GetMapping("/fechaReserva")
+    public String buscarPorFechaReserva(@RequestParam String fechaInicio, @RequestParam String fechaFin, Model model) {
+        List<Reserva> reservas = reservaService.findByFechaReservaBetween(fechaInicio, fechaFin);
+        model.addAttribute("reservas", reservas);
+        return "reservas/listar";
+    }
+
+    // Buscar reservas por precio y tipo de entrada
+    @GetMapping("/precioTipoEntrada")
+    public String buscarPorPrecioYTipoEntrada(@RequestParam BigDecimal precio, @RequestParam String tipoEntrada, Model model) {
+        List<Reserva> reservas = reservaService.findByPrecioAndTipoEntrada(precio, tipoEntrada);
+        model.addAttribute("reservas", reservas);
+        return "reservas/listar";
+    }
+
+    // Contar entradas reservadas por usuario
+    @GetMapping("/countEntradasReservadasPorUsuario/{usuarioId}")
+    public ResponseEntity<Long> countEntradasReservadasPorUsuario(@PathVariable Long usuarioId) {
+        Long count = reservaService.countEntradasReservadasPorUsuario(usuarioId);
+        return ResponseEntity.ok(count);
+    }
+
+    // Contar entradas por método de pago (efectivo o tarjeta)
+    @GetMapping("/countEntradasPorMetodoPago/{usuarioId}/{metodoPago}")
+    public ResponseEntity<Long> countEntradasPorMetodoPago(@PathVariable Long usuarioId, @PathVariable String metodoPago) {
+        Long count = reservaService.countEntradasPorMetodoPago(usuarioId, metodoPago);
+        return ResponseEntity.ok(count);
+    }
+    // Contar entradas por tipo (normal y día del espectador)
+    @GetMapping("/countEntradasPorTipo/{usuarioId}")
+    public ResponseEntity<List<BigDecimal>> countEntradasPorTipo(@PathVariable Long usuarioId) {
+        List<BigDecimal> counts = reservaService.countEntradasPorTipo(usuarioId);
+        return ResponseEntity.ok(counts);
+    }
+
+
 
 
 

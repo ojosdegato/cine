@@ -1,18 +1,39 @@
 package cine.cartelera.cine.services;
 
-
 import cine.cartelera.cine.entities.Reserva;
 import cine.cartelera.cine.repositories.ReservaRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.time.DayOfWeek;
 import java.time.LocalDateTime;
 import java.util.List;
 
 @RequiredArgsConstructor
 @Service
 public class ReservaService {
+    // Clase ReservaService para manejar la lógica de negocio relacionada con las reservas de cine
+    private static final double PRECIO_NORMAL = 7.50;
+    private static final double PRECIO_DIA_ESPECTADOR = 3.00;
+    private static final DayOfWeek DIA_ESPECTADOR = DayOfWeek.WEDNESDAY;
+
+    // Método para calcular el precio de la entrada según el día de la semana
+    private double calcularPrecioEntrada(LocalDateTime fechaReserva) {
+        if (fechaReserva.getDayOfWeek() == DIA_ESPECTADOR) {
+            // Si es día del espectador, aplicar precio especial
+            return PRECIO_DIA_ESPECTADOR;
+        }
+        // En cualquier otro día, aplicar precio normal
+        return PRECIO_NORMAL;
+    }
+
+    public Reserva save(Reserva reserva) {
+        // Establecer el precio según el día
+        double precio = calcularPrecioEntrada(reserva.getFechaProyeccion());
+        reserva.setPrecioEntrada(BigDecimal.valueOf(precio));
+        return reservaRepository.save(reserva);
+    }
 
     private final ReservaRepository reservaRepository;
 
@@ -25,13 +46,11 @@ public class ReservaService {
                 .orElseThrow(() -> new RuntimeException("Reserva no encontrada"));
     }
 
-    public Reserva save(Reserva reserva) {
-        return reservaRepository.save(reserva);
-    }
-
     public void deleteById(Long id) {
         reservaRepository.deleteById(id);
     }
+
+    // MÉTODOS DE BÚSQUEDA Y CONTEO
 
     // Método para buscar reservas por usuario
     public List<Reserva> findByUsuarioId(Long usuarioId) {
@@ -94,7 +113,4 @@ public class ReservaService {
     }
 
 
-
-
 }
-
