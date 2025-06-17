@@ -31,7 +31,7 @@ public class Reserva {
     private Usuario usuario;
 
     @Column(nullable = false, unique = true)
-    private int numeroAsiento;
+    private Integer numeroAsiento;
 
     @Column(nullable = false)
     private Double precioEntrada; // Precio de la entrada, puede ser diferente para "DIA_ESPECTADOR"
