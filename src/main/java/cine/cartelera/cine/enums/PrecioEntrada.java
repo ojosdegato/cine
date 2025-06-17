@@ -1,21 +1,23 @@
 package cine.cartelera.cine.enums;
 
-import java.math.BigDecimal; // Importa la clase BigDecimal para manejar precios con precisión decimal
+/**
+ * Enum que define los tipos de precios de entradas disponibles
+ * y sus valores correspondientes
+ */
+public enum PrecioEntrada {
+    NORMAL(7.50),
+    DIA_ESPECTADOR(3.00);
 
-public enum PrecioEntrada { //
+    private final double precio;
 
-    PRECIO_NORMAL(new BigDecimal("7.50")), // Precio normal de una entrada
-    PRECIO_DIA_ESPECTADOR(new BigDecimal("3.00")); // Precio especial para el día del espectador
-
-    private final BigDecimal valor;
-
-    PrecioEntrada(BigDecimal valor) {
-        this.valor = valor; // Inicializa el valor del precio de la entrada
+    PrecioEntrada(double precio) {
+        this.precio = precio;
     }
 
-    public BigDecimal getValor() {
-        return valor;
+    public double getPrecio() {
+        return precio;
     }
 }
+
 
 
