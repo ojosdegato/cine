@@ -5,6 +5,8 @@ import cine.cartelera.cine.enums.UserRole;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.List;
+
 @Getter
 @Setter
 @ToString
@@ -12,7 +14,7 @@ import lombok.*;
 @AllArgsConstructor
 @Builder
 @Entity
-@Table(name="Usuarios")
+@Table(name="usuarios")
 
 public class Usuario {
 
@@ -37,6 +39,7 @@ public class Usuario {
     // Guardo el rol como texto
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
+
     // Por defecto todos los usuarios son USER, no ADMIN
     @Builder.Default
     private UserRole role = UserRole.USER;
