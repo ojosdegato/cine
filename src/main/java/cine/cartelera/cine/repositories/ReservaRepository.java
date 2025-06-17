@@ -28,7 +28,7 @@ public interface ReservaRepository extends JpaRepository<Reserva, Long> {
     List<Reserva> findByEstadoReserva(String estadoReserva);
 
     // Buscar reservas por el número del asiento
-    List<Reserva> findByNumeroAsiento(String numeroAsiento);
+    List<Reserva> findByNumeroAsiento(Integer numeroAsiento);
 
     // Buscar reservas por la fecha de la proyección
     @Query("SELECT r FROM Reserva r WHERE r.proyeccion.fechaHora BETWEEN :fechaInicio AND :fechaFin")
