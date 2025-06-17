@@ -32,7 +32,7 @@ public class UsuarioController {
     // Buscar usuario por ID
     @GetMapping("/{id}")
     public String buscarUsuarioPorId(@PathVariable Long id, Model model) {
-        usuarioService.finById(id).ifPresent(usuario -> model.addAttribute("usuario", usuario));
+        usuarioService.finById(id).ifPresent(usuario -> model.addAttribute("usuario"));
 
         return "usuarios/detalle";
     }
