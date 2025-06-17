@@ -94,7 +94,7 @@ public class ReservaController {
     // Formulario para editar una reserva
     @GetMapping("/editar/{id}")
     public String editarReserva(@PathVariable Long id, Model model) {
-        Reserva reserva = reservaService.buscarPorId(id);
+        Reserva reserva = reservaService.findById(id);
         model.addAttribute("reserva", reserva);
         model.addAttribute("precioNormal", PrecioEntrada.NORMAL.getPrecio());
         model.addAttribute("precioDiaEspectador", PrecioEntrada.DIA_ESPECTADOR.getPrecio());
