@@ -3,6 +3,8 @@ package cine.cartelera.cine.entities;
 
 import cine.cartelera.cine.enums.UserRole;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.util.List;
@@ -44,5 +46,7 @@ public class Usuario {
     @Builder.Default
     private UserRole role = UserRole.USER;
 
+    public void setActivo(@NotNull(message = "El estado activo no puede ser nulo") Boolean activo) {}
 
+    public void setRol(@NotBlank(message = "El rol no puede estar vacío") String rol) {}
 }
