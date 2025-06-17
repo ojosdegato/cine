@@ -4,6 +4,9 @@ package cine.cartelera.cine.entities;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+
 @Getter
 @Setter
 @ToString (exclude = {"proyeccion", "usuario"}) //
@@ -48,11 +51,9 @@ public class Reserva {
     @Column(nullable = false)
     private String tipoEntrada; // Puede ser "NORMAL" o "DIA_ESPECTADOR"
 
+    public LocalDateTime getFechaProyeccion() {
+        return null;
+    }
 
-
-
-
-
-
-
+    public void setPrecioEntrada(BigDecimal bigDecimal) {}
 }
