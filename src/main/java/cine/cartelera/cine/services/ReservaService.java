@@ -1,9 +1,16 @@
 package cine.cartelera.cine.services;
 
 import cine.cartelera.cine.entities.Reserva;
+import cine.cartelera.cine.enums.PrecioEntrada;
 import cine.cartelera.cine.repositories.ReservaRepository;
+import cine.cartelera.cine.repositories.UsuarioRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+
 
 import java.math.BigDecimal;
 import java.time.DayOfWeek;
@@ -12,105 +19,127 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @Service
+@Validated
 public class ReservaService {
-    // Clase ReservaService para manejar la lógica de negocio relacionada con las reservas de cine
-    private static final double PRECIO_NORMAL = 7.50;
-    private static final double PRECIO_DIA_ESPECTADOR = 3.00;
+    // Constante que define el día del espectador
     private static final DayOfWeek DIA_ESPECTADOR = DayOfWeek.WEDNESDAY;
 
-    // Método para calcular el precio de la entrada según el día de la semana
-    private double calcularPrecioEntrada(LocalDateTime fechaReserva) {
-        if (fechaReserva.getDayOfWeek() == DIA_ESPECTADOR) {
-            // Si es día del espectador, aplicar precio especial
-            return PRECIO_DIA_ESPECTADOR;
-        }
-        // En cualquier otro día, aplicar precio normal
-        return PRECIO_NORMAL;
-    }
-
-    public Reserva save(Reserva reserva) {
-        // Establecer el precio según el día
-        double precio = calcularPrecioEntrada(reserva.getFechaProyeccion());
-        reserva.setPrecioEntrada(BigDecimal.valueOf(precio));
-        return reservaRepository.save(reserva);
-    }
-
     private final ReservaRepository reservaRepository;
+    private final UsuarioRepository usuarioRepository;
 
-    public List<Reserva> listarTodas() {
+    // Calcular el precio de la entrada según el día
+    private double calcularPrecioEntrada(LocalDateTime fechaReserva) {
+
+        return fechaReserva.getDayOfWeek() == DIA_ESPECTADOR
+                ? PrecioEntrada.DIA_ESPECTADOR.getPrecio()
+                : PrecioEntrada.NORMAL.getPrecio();
+    }
+
+    // Listar todas las reservas
+    public List<Reserva> findAll() {
+
         return reservaRepository.findAll();
     }
 
-    public Reserva buscarPorId(Long id) {
+    // Buscar una reserva por su ID
+    public Reserva findById(@NotNull(message = "El ID de la reserva no puede ser nulo") Long id) {
+
         return reservaRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Reserva no encontrada"));
     }
 
-    public void deleteById(Long id) {
+    // Guardar una reserva
+    public Reserva save(@Valid Reserva reserva) {
+        double precio = calcularPrecioEntrada(reserva.getFechaProyeccion());
+        reserva.setPrecioEntrada(BigDecimal.valueOf(precio));
+
+        return reservaRepository.save(reserva);
+    }
+
+    // Eliminar una reserva por su ID
+    public void deleteById(@NotNull(message = "El ID de la reserva no puede ser nulo") Long id) {
+
         reservaRepository.deleteById(id);
     }
 
-    // MÉTODOS DE BÚSQUEDA Y CONTEO
+    // Encontrar reservas por ID de usuario
+    public List<Reserva> findByUsuarioId(@NotNull(message = "El ID de usuario no puede ser nulo") Long usuarioId) {
 
-    // Método para buscar reservas por usuario
-    public List<Reserva> findByUsuarioId(Long usuarioId) {
         return reservaRepository.findByUsuarioId(usuarioId);
     }
 
-    // Método para buscar reservas por proyeccion
-    public List<Reserva> findByProyeccionId(Long proyeccionId) {
+    // Encontrar reservas por ID de proyección
+    public List<Reserva> findByProyeccionId(@NotNull(message = "El ID de proyección no puede ser nulo") Long proyeccionId) {
+
         return reservaRepository.findByProyeccion_Id(proyeccionId);
     }
 
-    // Método para buscar reservas por sala
-    public List<Reserva> findBySalaId(Long salaId) {
+    // Encontrar reservas por ID de sala
+    public List<Reserva> findBySalaId(@NotNull(message = "El ID de sala no puede ser nulo") Long salaId) {
+
         return reservaRepository.findByProyeccion_Sala_Id(salaId);
     }
 
-    // Método para buscar reservas por película
-    public List<Reserva> findByPeliculaId(Long peliculaId) {
+    // Encontrar reservas por ID de película
+    public List<Reserva> findByPeliculaId(@NotNull(message = "El ID de película no puede ser nulo") Long peliculaId) {
+
         return reservaRepository.findByProyeccion_Pelicula_Id(peliculaId);
     }
 
-    // Método para buscar reservas por estado
-    public List<Reserva> findByEstadoReserva(String estadoReserva) {
+    // Encontrar reservas por estado
+    public List<Reserva> findByEstadoReserva(@NotBlank(message = "El estado de reserva no puede estar vacío") String estadoReserva) {
+
         return reservaRepository.findByEstadoReserva(estadoReserva);
     }
 
-    // Método para buscar reservas por número de asiento
-    public List<Reserva> findByNumeroAsiento(String numeroAsiento) {
-        return reservaRepository.findByNumeroAsiento(numeroAsiento);
+    // Encontrar reservas por número de asiento
+    public List<Reserva> findByNumeroAsiento(@NotBlank(message = "El número de asiento no puede estar vacío") String numeroAsiento) {
+
+        return reservaRepository.findByNumeroAsiento(Integer.valueOf(numeroAsiento));
     }
 
-    // Método para buscar reservas por fecha de proyección
-    public List<Reserva> findByFechaProyeccionBetween(String fechaInicio, String fechaFin) {
+    // Encontrar reservas entre fechas de proyección
+    public List<Reserva> findByFechaProyeccionBetween(
+            @NotBlank(message = "La fecha de inicio no puede estar vacía") String fechaInicio,
+            @NotBlank(message = "La fecha de fin no puede estar vacía") String fechaFin) {
+
         return reservaRepository.findByFechaProyeccionBetween(fechaInicio, fechaFin);
     }
 
-    // Método para buscar reservas por fecha de reserva
-    public List<Reserva> findByFechaReservaBetween(String fechaInicio, String fechaFin) {
+    // Encontrar reservas entre fechas de reserva
+    public List<Reserva> findByFechaReservaBetween(
+            @NotBlank(message = "La fecha de inicio no puede estar vacía") String fechaInicio,
+            @NotBlank(message = "La fecha de fin no puede estar vacía") String fechaFin) {
+
         return reservaRepository.findByFechaReservaBetween(fechaInicio, fechaFin);
     }
 
-    // Método para buscar reservas por precio y tipo de entrada
-    public List<Reserva> findByPrecioAndTipoEntrada(BigDecimal precio, String tipoEntrada) {
+    // Encontrar reservas por precio y tipo de entrada
+    public List<Reserva> findByPrecioAndTipoEntrada(
+            @NotNull(message = "El precio no puede ser nulo") BigDecimal precio,
+            @NotBlank(message = "El tipo de entrada no puede estar vacío") String tipoEntrada) {
+
         return reservaRepository.findByPrecioAndTipoEntrada(precio, tipoEntrada);
     }
 
-    // Método para contar entradas reservadas por usuario
-    public Long countEntradasReservadasPorUsuario(Long usuarioId) {
+    // Contar entradas reservadas por usuario
+    public Long countEntradasReservadasPorUsuario(@NotNull(message = "El ID de usuario no puede ser nulo") Long usuarioId) {
+
         return reservaRepository.countEntradasReservadasPorUsuario(usuarioId);
     }
 
-    // Método para contar entradas por método de pago (efectivo o tarjeta)
-    public Long countEntradasPorMetodoPago(Long usuarioId, String metodoPago) {
+    // Contar entradas por método de pago
+    public Long countEntradasPorMetodoPago(
+            @NotNull(message = "El ID de usuario no puede ser nulo") Long usuarioId,
+            @NotBlank(message = "El método de pago no puede estar vacío") String metodoPago) {
+
         return reservaRepository.countEntradasPorMetodoPago(usuarioId, metodoPago);
     }
 
-    // Método para contar entradas por tipo (normal o día del espectador)
-    public List<BigDecimal> countEntradasPorTipo(Long usuarioId) {
+    // Contar entradas por tipo
+    public List<BigDecimal> countEntradasPorTipo(@NotNull(message = "El ID de usuario no puede ser nulo") Long usuarioId) {
+
         return reservaRepository.countEntradasPorTipo(usuarioId);
     }
-
-
 }
+

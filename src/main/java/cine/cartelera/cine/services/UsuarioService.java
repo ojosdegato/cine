@@ -1,78 +1,114 @@
 package cine.cartelera.cine.services;
 
 import cine.cartelera.cine.entities.Usuario;
+import cine.cartelera.cine.repositories.ReservaRepository;
 import cine.cartelera.cine.repositories.UsuarioRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.annotation.Validated;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 import java.util.List;
 import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
+@Validated
 public class UsuarioService {
 
     private final UsuarioRepository usuarioRepository;
+    private final ReservaRepository reservaRepository;
 
+    public Optional<Object> finById(Long id) {
+        return Optional.empty();
+    }
+
+    // Listar todos los usuarios
     public List<Usuario> findAll() {
         return usuarioRepository.findAll();
     }
 
-    public Optional<Usuario> finById(Long id) {
-        return usuarioRepository.findById(id);
+    // Buscar usuario por ID
+    public Usuario findById(@NotNull(message = "El ID del usuario no puede ser nulo") Long id) {
+        return usuarioRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
     }
 
-    public Usuario save(Usuario usuario) {
+    // Guardar un usuario
+    public Usuario save(@Valid Usuario usuario) {
         return usuarioRepository.save(usuario);
     }
 
-    public void deleteById(Long id) {
+    // Eliminar un usuario por ID
+    public void deleteById(@NotNull(message = "El ID del usuario no puede ser nulo") Long id) {
         usuarioRepository.deleteById(id);
     }
 
-    // Método para buscar un usuario por su nombre de usuario
-    public Usuario findByUsername(String username) {
-        List<Usuario> usuarios = usuarioRepository.findByUsername(username);
-        // Si no se encuentra ningún usuario, retornar null
-        return usuarios.isEmpty() ? null : usuarios.get(0);
+    // Buscar usuarios por nombre de usuario
+    public List<Usuario> findByUsername(@NotBlank(message = "El nombre de usuario no puede estar vacío") String username) {
+        return usuarioRepository.findByUsername(username);
     }
 
-    // Método para buscar un usuario por su email
-    public Usuario findByEmail(String email) {
-        List<Usuario> usuarios = usuarioRepository.findByEmail(email);
-        // Si no se encuentra ningún usuario, retornar null
-        return usuarios.isEmpty() ? null : usuarios.get(0);
+    // Buscar usuarios por email
+    public List<Usuario> findByEmail(@NotBlank(message = "El email no puede estar vacío") String email) {
+        return usuarioRepository.findByEmail(email);
     }
 
-    // Método para buscar usuarios por estado de cuenta (activo/inactivo)
-    public List<Usuario> findByActivo(boolean activo) {
-        // Retorna una lista de usuarios filtrados por su estado activo
+    // Buscar usuarios por estado de cuenta
+    public List<Usuario> findByActivo(@NotNull(message = "El estado activo no puede ser nulo") Boolean activo) {
         return usuarioRepository.findByActivo(activo);
     }
 
-    // Método para buscar usuarios por rol
-    public List<Usuario> findByRol(String rol) {
-        // Retorna una lista de usuarios filtrados por su rol
+    // Buscar usuarios por rol
+    public List<Usuario> findByRol(@NotBlank(message = "El rol no puede estar vacío") String rol) {
         return usuarioRepository.findByRol(rol);
     }
 
-    // Método para contar usuarios activos
+    // Contar usuarios activos
     public Long contarUsuariosActivos() {
-        // Utiliza una consulta personalizada para contar los usuarios activos
         return usuarioRepository.contarUsuariosActivos();
     }
 
+    // Actualizar estado de cuenta del usuario
+    public Usuario actualizarEstadoCuenta(
+            @NotNull(message = "El ID del usuario no puede ser nulo") Long id,
+            @NotNull(message = "El estado activo no puede ser nulo") Boolean activo) {
+        Usuario usuario = findById(id);
+        usuario.setActivo(activo);
+        return usuarioRepository.save(usuario);
+    }
 
+    // Actualizar rol de usuario
+    public Usuario actualizarRolUsuario(
+            @NotNull(message = "El ID del usuario no puede ser nulo") Long id,
+            @NotBlank(message = "El rol no puede estar vacío") String rol) {
+        Usuario usuario = findById(id);
+        usuario.setRol(rol);
+        return usuarioRepository.save(usuario);
+    }
 
+    // Actualizar información básica del usuario
+    public Usuario actualizarInformacionUsuario(
+            @NotNull(message = "El ID del usuario no puede ser nulo") Long id,
+            @NotBlank(message = "El nombre de usuario no puede estar vacío") String username,
+            @NotBlank(message = "El email no puede estar vacío") String email) {
+        Usuario usuario = findById(id);
+        usuario.setUsername(username);
+        usuario.setEmail(email);
+        return usuarioRepository.save(usuario);
+    }
 
-
-
-
-
+    // Validar credenciales de usuario
+    public boolean validarCredenciales(
+            @NotBlank(message = "El nombre de usuario no puede estar vacío") String username,
+            @NotBlank(message = "La contraseña no puede estar vacía") String password) {
+        // Implementar lógica de validación de credenciales
+        return false; // Placeholder - implementar lógica real
+    }
 
 
 
 }
+
