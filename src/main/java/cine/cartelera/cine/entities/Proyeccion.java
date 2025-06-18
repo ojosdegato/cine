@@ -33,8 +33,5 @@ public class Proyeccion {
     @JoinColumn(name = "Pelicula_id")
     private Pelicula pelicula;
 
-    public LocalDateTime getFechaHora() {
-        return null;
 
-    }
 }

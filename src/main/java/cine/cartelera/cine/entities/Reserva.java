@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Builder
 @Entity
-@Table(name="Reservas")
+@Table(name="reservas")
 
 public class Reserva {
 
@@ -31,7 +31,7 @@ public class Reserva {
     private Usuario usuario;
 
     @Column(nullable = false, unique = true)
-    private int numeroAsiento;
+    private Integer numeroAsiento;
 
     @Column(nullable = false)
     private Double precioEntrada; // Precio de la entrada, puede ser diferente para "DIA_ESPECTADOR"
@@ -43,6 +43,7 @@ public class Reserva {
     private String estadoReserva; // Puede ser "PENDIENTE", "CONFIRMADA", "CANCELADA"
 
     @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
     private String metodoPago; // Puede ser "TARJETA", "EFECTIVO", etc.
 
     @Column(nullable = false)

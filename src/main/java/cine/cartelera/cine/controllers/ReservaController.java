@@ -1,8 +1,7 @@
 package cine.cartelera.cine.controllers;
 
 import cine.cartelera.cine.entities.Reserva;
-import cine.cartelera.cine.repositories.ReservaRepository;
-import cine.cartelera.cine.repositories.ReservaRepository;
+import cine.cartelera.cine.enums.PrecioEntrada;
 import cine.cartelera.cine.services.ReservaService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -12,12 +11,13 @@ import org.springframework.web.bind.annotation.*;
 
 import jakarta.validation.Valid;
 import java.math.BigDecimal;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/reservas")
 public class ReservaController {
-
 
     private final ReservaService reservaService;
 
@@ -25,11 +25,24 @@ public class ReservaController {
         this.reservaService = reservaService;
     }
 
+    // Endpoint para obtener los precios de las entradas
+    @GetMapping("/precios")
+    @ResponseBody
+    public ResponseEntity<Map<String, Double>> obtenerPrecios() {
+        Map<String, Double> precios = new HashMap<>();
+        for (PrecioEntrada precio : PrecioEntrada.values()) {
+            precios.put(precio.name(), precio.getPrecio());
+        }
+
+        return ResponseEntity.ok(precios);
+    }
+
     // Mostrar todas las reservas
     @GetMapping
     public String listarReservas(Model model) {
-        List<Reserva> reservas = reservaService.listarTodas();
+        List<Reserva> reservas = reservaService.findAll();
         model.addAttribute("reservas", reservas);
+
         return "reservas/listar";
     }
 
@@ -37,23 +50,59 @@ public class ReservaController {
     @GetMapping("/nueva")
     public String mostrarFormulario(Model model) {
         model.addAttribute("reserva", new Reserva());
+        model.addAttribute("precioNormal", PrecioEntrada.NORMAL.getPrecio());
+        model.addAttribute("precioDiaEspectador", PrecioEntrada.DIA_ESPECTADOR.getPrecio());
+        model.addAttribute("tiposEntrada", List.of("NORMAL", "DIA_ESPECTADOR"));
+        model.addAttribute("diaEspectador", "MIÉRCOLES");
+        model.addAttribute("metodosPago", List.of("TARJETA", "EFECTIVO"));
+        model.addAttribute("estadosReserva", List.of("PENDIENTE", "CONFIRMADA", "CANCELADA"));
+
         return "reservas/formulario";
     }
+
     // Guardar reserva nueva o editada
     @PostMapping("/guardar")
-    public String guardarReserva(@Valid @ModelAttribute Reserva reserva, BindingResult result) {
+    public String guardarReserva(@Valid @ModelAttribute Reserva reserva, BindingResult result, Model model) {
         if (result.hasErrors()) {
-            return "reservas/formulario"; // Volver al formulario si hay errores
+            model.addAttribute("precioNormal", PrecioEntrada.NORMAL.getPrecio());
+            model.addAttribute("precioDiaEspectador", PrecioEntrada.DIA_ESPECTADOR.getPrecio());
+            model.addAttribute("tiposEntrada", List.of("NORMAL", "DIA_ESPECTADOR"));
+            model.addAttribute("diaEspectador", "MIÉRCOLES");
+            model.addAttribute("metodosPago", List.of("TARJETA", "EFECTIVO"));
+            model.addAttribute("estadosReserva", List.of("PENDIENTE", "CONFIRMADA", "CANCELADA"));
+
+            return "reservas/formulario";
         }
-        reservaService.save(reserva);
-        return "redirect:/reservas";
+
+        try {
+            Reserva reservaGuardada = reservaService.save(reserva);
+            return "redirect:/reservas";
+        } catch (IllegalArgumentException e) {
+            model.addAttribute("error", "Error al guardar la reserva: " + e.getMessage());
+            model.addAttribute("precioNormal", PrecioEntrada.NORMAL.getPrecio());
+            model.addAttribute("precioDiaEspectador", PrecioEntrada.DIA_ESPECTADOR.getPrecio());
+            model.addAttribute("diaEspectador", "MIÉRCOLES");
+            model.addAttribute("tiposEntrada", List.of("NORMAL", "DIA_ESPECTADOR"));
+            model.addAttribute("metodosPago", List.of("TARJETA", "EFECTIVO"));
+            model.addAttribute("estadosReserva", List.of("PENDIENTE", "CONFIRMADA", "CANCELADA"));
+
+            return "reservas/formulario";
+        }
+
     }
 
     // Formulario para editar una reserva
     @GetMapping("/editar/{id}")
     public String editarReserva(@PathVariable Long id, Model model) {
-        Reserva reserva = reservaService.buscarPorId(id);
+        Reserva reserva = reservaService.findById(id);
         model.addAttribute("reserva", reserva);
+        model.addAttribute("precioNormal", PrecioEntrada.NORMAL.getPrecio());
+        model.addAttribute("precioDiaEspectador", PrecioEntrada.DIA_ESPECTADOR.getPrecio());
+        model.addAttribute("diaEspectador", "MIÉRCOLES");
+        model.addAttribute("tiposEntrada", List.of("NORMAL", "DIA_ESPECTADOR"));
+        model.addAttribute("metodosPago", List.of("TARJETA", "EFECTIVO"));
+        model.addAttribute("estadosReserva", List.of("PENDIENTE", "CONFIRMADA", "CANCELADA"));
+
         return "reservas/formulario";
     }
 
@@ -61,6 +110,7 @@ public class ReservaController {
     @GetMapping("/eliminar/{id}")
     public String eliminarReserva(@PathVariable Long id) {
         reservaService.deleteById(id);
+
         return "redirect:/reservas";
     }
 
@@ -69,6 +119,7 @@ public class ReservaController {
     public String buscarPorUsuario(@PathVariable Long usuarioId, Model model) {
         List<Reserva> reservas = reservaService.findByUsuarioId(usuarioId);
         model.addAttribute("reservas", reservas);
+
         return "reservas/listar";
     }
 
@@ -77,6 +128,7 @@ public class ReservaController {
     public String buscarPorProyeccion(@PathVariable Long proyeccionId, Model model) {
         List<Reserva> reservas = reservaService.findByProyeccionId(proyeccionId);
         model.addAttribute("reservas", reservas);
+
         return "reservas/listar";
     }
 
@@ -85,6 +137,7 @@ public class ReservaController {
     public String buscarPorSala(@PathVariable Long salaId, Model model) {
         List<Reserva> reservas = reservaService.findBySalaId(salaId);
         model.addAttribute("reservas", reservas);
+
         return "reservas/listar";
     }
 
@@ -93,6 +146,7 @@ public class ReservaController {
     public String buscarPorPelicula(@PathVariable Long peliculaId, Model model) {
         List<Reserva> reservas = reservaService.findByPeliculaId(peliculaId);
         model.addAttribute("reservas", reservas);
+
         return "reservas/listar";
     }
 
@@ -101,6 +155,7 @@ public class ReservaController {
     public String buscarPorEstado(@PathVariable String estadoReserva, Model model) {
         List<Reserva> reservas = reservaService.findByEstadoReserva(estadoReserva);
         model.addAttribute("reservas", reservas);
+
         return "reservas/listar";
     }
 
@@ -109,6 +164,7 @@ public class ReservaController {
     public String buscarPorNumeroAsiento(@PathVariable String numeroAsiento, Model model) {
         List<Reserva> reservas = reservaService.findByNumeroAsiento(numeroAsiento);
         model.addAttribute("reservas", reservas);
+
         return "reservas/listar";
     }
 
@@ -117,13 +173,16 @@ public class ReservaController {
     public String buscarPorFechaProyeccion(@RequestParam String fechaInicio, @RequestParam String fechaFin, Model model) {
         List<Reserva> reservas = reservaService.findByFechaProyeccionBetween(fechaInicio, fechaFin);
         model.addAttribute("reservas", reservas);
+
         return "reservas/listar";
     }
+
     // Buscar reservas por fecha de reserva
     @GetMapping("/fechaReserva")
     public String buscarPorFechaReserva(@RequestParam String fechaInicio, @RequestParam String fechaFin, Model model) {
         List<Reserva> reservas = reservaService.findByFechaReservaBetween(fechaInicio, fechaFin);
         model.addAttribute("reservas", reservas);
+
         return "reservas/listar";
     }
 
@@ -132,6 +191,7 @@ public class ReservaController {
     public String buscarPorPrecioYTipoEntrada(@RequestParam BigDecimal precio, @RequestParam String tipoEntrada, Model model) {
         List<Reserva> reservas = reservaService.findByPrecioAndTipoEntrada(precio, tipoEntrada);
         model.addAttribute("reservas", reservas);
+
         return "reservas/listar";
     }
 
@@ -139,6 +199,7 @@ public class ReservaController {
     @GetMapping("/countEntradasReservadasPorUsuario/{usuarioId}")
     public ResponseEntity<Long> countEntradasReservadasPorUsuario(@PathVariable Long usuarioId) {
         Long count = reservaService.countEntradasReservadasPorUsuario(usuarioId);
+
         return ResponseEntity.ok(count);
     }
 
@@ -146,24 +207,17 @@ public class ReservaController {
     @GetMapping("/countEntradasPorMetodoPago/{usuarioId}/{metodoPago}")
     public ResponseEntity<Long> countEntradasPorMetodoPago(@PathVariable Long usuarioId, @PathVariable String metodoPago) {
         Long count = reservaService.countEntradasPorMetodoPago(usuarioId, metodoPago);
+
         return ResponseEntity.ok(count);
     }
+
     // Contar entradas por tipo (normal y día del espectador)
     @GetMapping("/countEntradasPorTipo/{usuarioId}")
     public ResponseEntity<List<BigDecimal>> countEntradasPorTipo(@PathVariable Long usuarioId) {
         List<BigDecimal> counts = reservaService.countEntradasPorTipo(usuarioId);
+
         return ResponseEntity.ok(counts);
     }
-
-
-
-
-
-
-
-
-
-
 
 }
 
