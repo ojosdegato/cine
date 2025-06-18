@@ -1,12 +1,19 @@
 package cine.cartelera.cine.controllers;
 
+
+import ch.qos.logback.core.model.Model;
 import cine.cartelera.cine.entities.Pelicula;
 import cine.cartelera.cine.repositories.PeliculaRepository;
+import cine.cartelera.cine.services.PeliculaService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import java.util.TreeSet;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/peliculas")
@@ -64,4 +71,5 @@ public class PeliculaController {
             return ResponseEntity.notFound().build();
         }
     }
+
 }

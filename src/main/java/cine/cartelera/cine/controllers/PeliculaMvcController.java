@@ -6,6 +6,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Optional;
+
 @Controller
 @RequestMapping("/peliculas")
 public class PeliculaMvcController {
@@ -22,6 +24,20 @@ public class PeliculaMvcController {
         model.addAttribute("peliculas", peliculaService.listarTodas());
         return "peliculas/listar";
     }
+
+    @GetMapping("/detalles/{id}")
+    public String mostrarDetalles(@PathVariable Long id, Model model) {
+        Optional<Pelicula> pelicula = peliculaService.buscarPorId(id);
+        if (pelicula.isPresent()) {
+            model.addAttribute("pelicula", pelicula.get());
+            return "peliculas/detalles";
+        } else {
+            return "redirect:/peliculas";
+        }
+    }
+
+
+
 
     // Formulario para nueva película
     @GetMapping("/nueva")

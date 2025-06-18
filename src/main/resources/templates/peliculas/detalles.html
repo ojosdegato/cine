@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Detalles de Película</title>
+  <style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #eef2f7;
+        padding: 40px;
+    }
+
+    h1 {
+        color: #003366;
+    }
+
+    table {
+        width: 50%;
+        margin: auto;
+        border-collapse: collapse;
+        background-color: #fff;
+        box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    th, td {
+        padding: 12px;
+        border: 1px solid #ccc;
+        text-align: left;
+    }
+
+    th {
+        background-color: #007bff;
+        color: white;
+    }
+
+    .volver {
+        margin-top: 30px;
+        display: block;
+        text-align: center;
+    }
+
+    .volver a {
+        background-color: #007bff;
+        color: white;
+        padding: 10px 20px;
+        text-decoration: none;
+        border-radius: 5px;
+    }
+
+    .volver a:hover {
+        background-color: #0056b3;
+    }
+  </style>
+</head>
+<body>
+<h1 th:text="'🎬 Detalles de: ' + ${pelicula.titulo}">Detalles</h1>
+
+<table>
+  <tr>
+    <th>Título</th>
+    <td th:text="${pelicula.titulo}">Título</td>
+  </tr>
+  <tr>
+    <th>Género</th>
+    <td th:text="${pelicula.genero}">Género</td>
+  </tr>
+  <tr>
+    <th>Duración</th>
+    <td th:text="${pelicula.duracion + ' min'}">Duración</td>
+  </tr>
+  <tr>
+    <th>Clasificación Edad</th>
+    <td th:text="${pelicula.clasificacionEdad} + ' años'">Edad</td>
+  </tr>
+  <tr>
+    <th>Sinopsis</th>
+    <td th:text="${pelicula.sinopsis}">Sinopsis</td>
+  </tr>
+  <tr>
+    <th>Tráiler</th>
+    <td><a th:href="${pelicula.trailer}" target="_blank">Ver Tráiler</a></td>
+  </tr>
+</table>
+
+<div class="volver">
+  <a th:href="@{/peliculas}">⬅️ Volver al listado</a>
+</div>
+</body>
+</html>
