@@ -62,54 +62,17 @@
     .acciones a {
       margin: 0 5px;
     }
-
-    .buscador {
-      margin-bottom: 20px;
-      text-align: left;
-    }
-
-    .buscador select,
-    .buscador button {
-      padding: 8px 12px;
-      font-size: 16px;
-    }
-
-    .buscador label {
-      font-weight: bold;
-      margin-right: 10px;
-    }
   </style>
 </head>
 <body>
 
 <h1>Listado de Películas</h1>
 
-<!-- 🔍 Buscador por género -->
-<div class="buscador">
-  <form th:action="@{/peliculas/buscar.html}" method="get">
-    <label for="genero">Buscar por Género:</label>
-    <select id="genero" name="genero">
-      <option value="" th:selected="${generoSeleccionado == null or generoSeleccionado == ''}">Todos</option>
-      <option value="Aventura" th:selected="${generoSeleccionado == 'Aventura'}">Aventura</option>
-      <option value="Historia" th:selected="${generoSeleccionado == 'Historia'}">Historia</option>
-      <option value="Acción" th:selected="${generoSeleccionado == 'Acción'}">Acción</option>
-      <option value="Ciencia Ficción" th:selected="${generoSeleccionado == 'Ciencia Ficción'}">Ciencia Ficción</option>
-      <option value="Drama" th:selected="${generoSeleccionado == 'Drama'}">Drama</option>
-      <option value="Animación" th:selected="${generoSeleccionado == 'Animación'}">Animación</option>
-
-      <!-- Puedes agregar más géneros aquí -->
-    </select>
-    <button type="submit">Filtrar</button>
-  </form>
-</div>
-
-<!-- Botones -->
 <div style="text-align: right;">
   <a class="boton" th:href="@{/peliculas/nueva}">➕ Nueva Película</a>
   <a class="boton" th:href="@{/inicio/start}"> Volver a la Cartelera</a>
 </div>
 
-<!-- Tabla de películas -->
 <table>
   <thead>
   <tr>
@@ -128,7 +91,8 @@
     <td th:text="${p.clasificacionEdad + '+'}">Edad</td>
     <td class="acciones">
       <a th:href="@{'/peliculas/editar/' + ${p.id}}">✏️ Editar</a>
-      <a th:href="@{'/peliculas/detalles/' + ${p.id}}">🔍 Ver Detalles</a>
+      <!-- Enlace para ver detalles -->
+      <a th:href="@{'/peliculas/detalles/' + ${p.id}}"> 🔍 Ver Detalles</a>
       <a th:href="@{'/peliculas/eliminar/' + ${p.id}}" onclick="return confirm('¿Eliminar esta película?')">🗑️ Eliminar</a>
     </td>
   </tr>
