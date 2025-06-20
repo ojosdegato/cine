@@ -33,6 +33,21 @@ INSERT INTO peliculas (titulo, genero, duracion, clasificacion_edad, sinopsis, t
 ('Amélie', 'Comedia romántica', 122, 7, 'Una joven parisina decide cambiar la vida de los demás', 'https://youtube.com/ver_amelie');
 -- fin tablas Peliculas.
 
+CREATE TABLE IF NOT EXISTS salas (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(100) NOT NULL,
+    aforo_maximo INT NOT NULL,
+    asientos_disponibles INT NOT NULL,
+    tipo_sala VARCHAR(50) NOT NULL
+);
+
+-- Datos de ejemplo
+INSERT INTO salas (nombre, aforo_maximo, asientos_disponibles, tipo_sala) VALUES
+('Sala 1', 120, 120, '3D'),
+('Sala 2', 100, 98, 'NORMAL'),
+('Sala 3', 80, 75, 'IMAX'),
+('Sala 4', 60, 60, 'VIP'),
+('Sala 5', 90, 85, 'NORMAL');
 
 CREATE TABLE IF NOT EXISTS proyecciones (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
@@ -55,22 +70,6 @@ INSERT INTO proyecciones (fecha_hora, sala_id, pelicula_id) VALUES
 ('2025-06-27 20:30:00', 3, 8),  -- Forrest Gump
 ('2025-06-28 17:00:00', 4, 9),  -- El rey león
 ('2025-06-29 19:45:00', 5, 10); -- Vengadores: Endgame
-
-CREATE TABLE IF NOT EXISTS salas (
-    id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    nombre VARCHAR(100) NOT NULL,
-    aforo_maximo INT NOT NULL,
-    asientos_disponibles INT NOT NULL,
-    tipo_sala VARCHAR(50) NOT NULL
-);
-
--- Datos de ejemplo
-INSERT INTO salas (nombre, aforo_maximo, asientos_disponibles, tipo_sala) VALUES
-('Sala 1', 120, 120, '3D'),
-('Sala 2', 100, 98, 'NORMAL'),
-('Sala 3', 80, 75, 'IMAX'),
-('Sala 4', 60, 60, 'VIP'),
-('Sala 5', 90, 85, 'NORMAL');
 
 -- Crear la tabla de usuarios de la entidad Usuario por David Jiménez.
 CREATE TABLE IF NOT EXISTS usuarios (
