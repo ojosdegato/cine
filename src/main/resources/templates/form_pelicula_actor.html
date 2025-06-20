@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Películas del Actor</title>
+  <title>Asociar Películas al Actor</title>
   <!-- Bootstrap CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
   <!-- Font Awesome -->
@@ -66,52 +66,31 @@
   <div class="card">
     <div class="card-header d-flex justify-content-between align-items-center">
       <h2 class="mb-0">
-        Películas de <span th:text="${actor.nombre} + ' ' + ${actor.apellido}">[Nombre del Actor]</span>
+        Asociar Películas a <span th:text="${actor.nombre} + ' ' + ${actor.apellido}">[Nombre del Actor]</span>
       </h2>
       <div class="info-icon-wrapper">
-        <a class="info-icon collapsed" data-bs-toggle="collapse" href="#infoCollapsePeliculaActorOriginal" role="button" aria-expanded="false" aria-controls="infoCollapsePeliculaActorOriginal" title="Información sobre esta página">
+        <a class="info-icon collapsed" data-bs-toggle="collapse" href="#infoCollapseFormPeliculaActorOriginal" role="button" aria-expanded="false" aria-controls="infoCollapseFormPeliculaActorOriginal" title="Información sobre esta página">
           <i class="fas fa-info-circle"></i>
         </a>
       </div>
     </div>
-    <div class="collapse mt-2" id="infoCollapsePeliculaActorOriginal">
+    <div class="collapse mt-2" id="infoCollapseFormPeliculaActorOriginal">
       <div class="card card-body bg-light">
-        Esta página muestra la lista de películas para un actor específico. Desde aquí, puedes ver los detalles de cada película o asociar nuevas películas al actor.
+        Este formulario permite asociar películas existentes a un actor. Selecciona las películas que desees vincular y guarda los cambios.
       </div>
     </div>
     <div class="card-body">
-      <div th:if="${#lists.isEmpty(peliculas)}">
-        <p>No hay películas asociadas a este actor.</p>
-      </div>
-      <div class="table-responsive">
-        <table class="table table-striped table-hover">
-          <thead>
-          <tr>
-            <th>ID</th>
-            <th>Título</th>
-            <th>Director</th>
-            <th>Año</th>
-            <th>Acciones</th>
-          </tr>
-          </thead>
-          <tbody>
-          <tr th:each="pelicula : ${peliculas}">
-            <td th:text="${pelicula.id}">ID</td>
-            <td th:text="${pelicula.titulo}">Título</td>
-            <td th:text="${pelicula.director}">Director</td>
-            <td th:text="${pelicula.anoLanzamiento}">Año</td>
-            <td>
-              <a th:href="@{/actores/{actorId}/peliculas/{peliculaId}(actorId=${actor.id}, peliculaId=${pelicula.id})}" class="btn btn-info btn-sm" title="Ver Detalle"><i class="fas fa-eye"></i></a>
-              <form th:action="@{/actores/{actorId}/peliculas/desasociar/{peliculaId}(actorId=${actor.id}, peliculaId=${pelicula.id})}" method="post" style="display:inline;">
-                <button type="submit" class="btn btn-danger btn-sm" title="Desasociar" onclick="return confirm('¿Estás seguro de que quieres desasociar esta película del actor?');"><i class="fas fa-unlink"></i></button>
-              </form>
-            </td>
-          </tr>
-          </tbody>
-        </table>
-      </div>
-      <a th:href="@{/actores/{id}/peliculas/asociar(id=${actor.id})}" class="btn btn-primary mt-3"><i class="fas fa-plus"></i> Asociar Película</a>
-      <a href="/actores" class="btn btn-secondary mt-3"><i class="fas fa-arrow-left"></i> Volver a Actores</a>
+      <form th:action="@{/actores/{actorId}/peliculas/asociar(actorId=${actor.id})}" method="post">
+        <div class="mb-3">
+          <label for="peliculas" class="form-label">Selecciona Películas:</label>
+          <select multiple class="form-select" id="peliculas" name="peliculaIds" required>
+            <option th:each="pelicula : ${peliculasDisponibles}" th:value="${pelicula.id}" th:text="${pelicula.titulo}">Título de Película</option>
+          </select>
+          <div class="form-text">Mantén Ctrl (o Cmd en Mac) para seleccionar múltiples películas.</div>
+        </div>
+        <button type="submit" class="btn btn-primary"><i class="fas fa-link"></i> Asociar Películas</button>
+        <a th:href="@{/actores/{id}/peliculas(id=${actor.id})}" class="btn btn-secondary"><i class="fas fa-arrow-left"></i> Cancelar</a>
+      </form>
     </div>
   </div>
 </div>
