@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Formulario de Proyección</title>
+</head>
+<body>
+<h2 th:text="${proyeccion.id != null} ? 'Editar Proyección' : 'Nueva Proyección'"></h2>
+<form th:action="@{/proyecciones/guardar}" th:object="${proyeccion}" method="post">
+    <input type="hidden" th:field="*{id}" />
+    <label>Título:</label>
+    <input type="text" th:field="*{titulo}" required /><br/>
+    <label>Fecha:</label>
+    <input type="date" th:field="*{fecha}" required /><br/>
+    <label>Hora:</label>
+    <input type="time" th:field="*{hora}" required /><br/>
+    <label>Sala:</label>
+    <input type="text" th:field="*{sala}" required /><br/>
+    <button type="submit">Guardar</button>
+</form>
+<a th:href="@{/proyecciones}">Volver al listado</a>
+</body>
+</html>
