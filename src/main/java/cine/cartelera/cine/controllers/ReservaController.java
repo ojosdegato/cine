@@ -1,7 +1,7 @@
 package cine.cartelera.cine.controllers;
 
 import cine.cartelera.cine.entities.Reserva;
-import cine.cartelera.cine.enums.PrecioEntrada;
+import cine.cartelera.cine.enums.Precio_Entrada;
 import cine.cartelera.cine.services.ReservaService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -14,6 +14,7 @@ import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/reservas")
@@ -30,7 +31,7 @@ public class ReservaController {
     @ResponseBody
     public ResponseEntity<Map<String, Double>> obtenerPrecios() {
         Map<String, Double> precios = new HashMap<>();
-        for (PrecioEntrada precio : PrecioEntrada.values()) {
+        for (Precio_Entrada precio : Precio_Entrada.values()) {
             precios.put(precio.name(), precio.getPrecio());
         }
 
@@ -50,8 +51,8 @@ public class ReservaController {
     @GetMapping("/nueva")
     public String mostrarFormulario(Model model) {
         model.addAttribute("reserva", new Reserva());
-        model.addAttribute("precioNormal", PrecioEntrada.NORMAL.getPrecio());
-        model.addAttribute("precioDiaEspectador", PrecioEntrada.DIA_ESPECTADOR.getPrecio());
+        model.addAttribute("precioNormal", Precio_Entrada.NORMAL.getPrecio());
+        model.addAttribute("precioDiaEspectador", Precio_Entrada.DIA_ESPECTADOR.getPrecio());
         model.addAttribute("tiposEntrada", List.of("NORMAL", "DIA_ESPECTADOR"));
         model.addAttribute("diaEspectador", "MIÉRCOLES");
         model.addAttribute("metodosPago", List.of("TARJETA", "EFECTIVO"));
@@ -64,8 +65,8 @@ public class ReservaController {
     @PostMapping("/guardar")
     public String guardarReserva(@Valid @ModelAttribute Reserva reserva, BindingResult result, Model model) {
         if (result.hasErrors()) {
-            model.addAttribute("precioNormal", PrecioEntrada.NORMAL.getPrecio());
-            model.addAttribute("precioDiaEspectador", PrecioEntrada.DIA_ESPECTADOR.getPrecio());
+            model.addAttribute("precioNormal", Precio_Entrada.NORMAL.getPrecio());
+            model.addAttribute("precioDiaEspectador", Precio_Entrada.DIA_ESPECTADOR.getPrecio());
             model.addAttribute("tiposEntrada", List.of("NORMAL", "DIA_ESPECTADOR"));
             model.addAttribute("diaEspectador", "MIÉRCOLES");
             model.addAttribute("metodosPago", List.of("TARJETA", "EFECTIVO"));
@@ -79,8 +80,8 @@ public class ReservaController {
             return "redirect:/reservas";
         } catch (IllegalArgumentException e) {
             model.addAttribute("error", "Error al guardar la reserva: " + e.getMessage());
-            model.addAttribute("precioNormal", PrecioEntrada.NORMAL.getPrecio());
-            model.addAttribute("precioDiaEspectador", PrecioEntrada.DIA_ESPECTADOR.getPrecio());
+            model.addAttribute("precioNormal", Precio_Entrada.NORMAL.getPrecio());
+            model.addAttribute("precioDiaEspectador", Precio_Entrada.DIA_ESPECTADOR.getPrecio());
             model.addAttribute("diaEspectador", "MIÉRCOLES");
             model.addAttribute("tiposEntrada", List.of("NORMAL", "DIA_ESPECTADOR"));
             model.addAttribute("metodosPago", List.of("TARJETA", "EFECTIVO"));
@@ -94,10 +95,10 @@ public class ReservaController {
     // Formulario para editar una reserva
     @GetMapping("/editar/{id}")
     public String editarReserva(@PathVariable Long id, Model model) {
-        Reserva reserva = reservaService.findById(id);
+        Optional<Reserva> reserva = reservaService.findById(id);
         model.addAttribute("reserva", reserva);
-        model.addAttribute("precioNormal", PrecioEntrada.NORMAL.getPrecio());
-        model.addAttribute("precioDiaEspectador", PrecioEntrada.DIA_ESPECTADOR.getPrecio());
+        model.addAttribute("precioNormal", Precio_Entrada.NORMAL.getPrecio());
+        model.addAttribute("precioDiaEspectador", Precio_Entrada.DIA_ESPECTADOR.getPrecio());
         model.addAttribute("diaEspectador", "MIÉRCOLES");
         model.addAttribute("tiposEntrada", List.of("NORMAL", "DIA_ESPECTADOR"));
         model.addAttribute("metodosPago", List.of("TARJETA", "EFECTIVO"));
