@@ -1,13 +1,11 @@
 package cine.cartelera.cine.entities;
 
 
-import cine.cartelera.cine.enums.UserRole;
+import cine.cartelera.cine.enums.User_Role;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
-
-import java.util.List;
 
 @Getter
 @Setter
@@ -44,7 +42,7 @@ public class Usuario {
 
     // Por defecto todos los usuarios son USER, no ADMIN
     @Builder.Default
-    private UserRole role = UserRole.USER;
+    private User_Role role = User_Role.USER;
 
     public void setActivo(@NotNull(message = "El estado activo no puede ser nulo") Boolean activo) {}
 
