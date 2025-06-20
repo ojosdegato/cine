@@ -45,7 +45,7 @@ public class PeliculaActorServiceImpl implements PeliculaActorService {
     @Override
     public List<PeliculaActor> findByPeliculaId(Long peliculaId) {
         // Este método en el repositorio se apoyará en la relación definida en la entidad PeliculaActor
-        return peliculaActorRepository.findByPeliculaId_PeliculaId(peliculaId);
+        return peliculaActorRepository.findByPelicula_Id(peliculaId);
         // O si no se mapea automáticamente, se usaría un método de consulta @Query:
         // @Query("SELECT pa FROM PeliculaActor pa WHERE pa.pelicula.id = :peliculaId")
         // List<PeliculaActor> findByPeliculaId(@Param("peliculaId") Long peliculaId);
@@ -54,7 +54,7 @@ public class PeliculaActorServiceImpl implements PeliculaActorService {
     @Override
     public List<PeliculaActor> findByActorId(Long actorId) {
         // Similar a findByPeliculaId, se apoya en la relación
-        return peliculaActorRepository.findByActorId_ActorId(actorId);
+        return peliculaActorRepository.findByActor_Id(actorId);
         // O con @Query:
         // @Query("SELECT pa FROM PeliculaActor pa WHERE pa.actor.id = :actorId")
         // List<PeliculaActor> findByActorId(@Param("actorId") Long actorId);
@@ -62,12 +62,11 @@ public class PeliculaActorServiceImpl implements PeliculaActorService {
 
     @Override
     public List<PeliculaActor> findByRol(String rol) {
-        return peliculaActorRepository.findByRolIgnoreCase(rol);
+        return peliculaActorRepository.findByRol(rol);
     }
 
     @Override
-    public Optional<PeliculaActor> findByPeliculaIdAndActorId(Long peliculaId, Long actorId) {
-        // JPA puede construir esta consulta por nombre de método, mapeando a la clave compuesta
-        return peliculaActorRepository.findByIdPeliculaIdAndIdActorId(peliculaId, actorId);
+    public Optional<PeliculaActor> findByPeliculaIdAndActorId(Long idPelicula, Long idActor) {
+        return peliculaActorRepository.findById_IdPeliculaAndId_IdActor(idPelicula, idActor);
     }
 }

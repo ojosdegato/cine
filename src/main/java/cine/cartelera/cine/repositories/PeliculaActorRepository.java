@@ -15,21 +15,21 @@ public interface PeliculaActorRepository extends JpaRepository<PeliculaActor, Pe
 
     // 1. Buscar por el ID de la película (parte de la clave compuesta)
     // Spring Data JPA puede inferir esto de la relación @ManyToOne y @MapsId en PeliculaActor
-    List<PeliculaActor> findByPeliculaId_PeliculaId(Long peliculaId);
+    List<PeliculaActor> findByPelicula_Id(Long peliculaId);
     // Alternativa con @Query si lo anterior no funciona bien o para mayor claridad:
     // @Query("SELECT pa FROM PeliculaActor pa WHERE pa.pelicula.id = :peliculaId")
     // List<PeliculaActor> findByPeliculaId(@Param("peliculaId") Long peliculaId);
 
     // 2. Buscar por el ID del actor (parte de la clave compuesta)
-    List<PeliculaActor> findByActorId_ActorId(Long actorId);
+    List<PeliculaActor> findByActor_Id(Long actorId);
     // Alternativa con @Query:
     // @Query("SELECT pa FROM PeliculaActor pa WHERE pa.actor.id = :actorId")
     // List<PeliculaActor> findByActorId(@Param("actorId") Long actorId);
 
-    // 3. Buscar por el rol, ignorando mayúsculas/minúsculas
-    List<PeliculaActor> findByRolIgnoreCase(String rol);
+    // 3. Buscar por el rol,
+    List<PeliculaActor> findByRol(String rol);
 
     // 4. Buscar una asociación específica por ambos IDs (película y actor)
     // Cuando la clave primaria es compuesta (PeliculaActorId), puedes buscar por sus componentes directamente:
-    Optional<PeliculaActor> findByIdPeliculaIdAndIdActorId(Long peliculaId, Long actorId);
+    Optional<PeliculaActor> findById_IdPeliculaAndId_IdActor(Long idPelicula, Long idActor);
 }
