@@ -112,38 +112,30 @@ CREATE TABLE IF NOT EXISTS reservas (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     usuario_id BIGINT NOT NULL,
     proyeccion_id BIGINT NOT NULL,
-    numero_asiento VARCHAR(10) NOT NULL,
+    numero_asiento VARCHAR(10) NOT NULL UNIQUE,
     metodo_pago ENUM('TARJETA', 'EFECTIVO') NOT NULL,
     estado_reserva ENUM('PENDIENTE', 'CONFIRMADA', 'CANCELADA') NOT NULL,
     tipo_entrada ENUM('NORMAL', 'DIA_ESPECTADOR') NOT NULL,
     fecha_reserva DATETIME NOT NULL,
+    precio_entrada DOUBLE NOT NULL,
     FOREIGN KEY (usuario_id) REFERENCES usuarios(id),
     FOREIGN KEY (proyeccion_id) REFERENCES proyecciones(id)
 );
 
 -- Insertar las reservas de la entidad Reserva por David Jiménez.
-INSERT INTO reservas (usuario_id, proyeccion_id, numero_asiento, metodo_pago, estado_reserva, tipo_entrada, fecha_reserva) VALUES
-(2, 1, 'A1', 'TARJETA', 'CONFIRMADA', 'NORMAL', '2025-06-17 10:00:00'),
-(2, 2, 'B3', 'EFECTIVO', 'PENDIENTE', 'NORMAL', '2025-06-17 11:30:00'),
-(3, 1, 'C4', 'TARJETA', 'CONFIRMADA', 'DIA_ESPECTADOR', '2025-06-18 09:15:00'),
-(4, 3, 'D5', 'TARJETA', 'CANCELADA', 'NORMAL', '2025-06-19 14:20:00'),
-(3, 4, 'E2', 'EFECTIVO', 'CONFIRMADA', 'NORMAL', '2025-06-20 16:45:00'),
-(2, 5, 'F7', 'TARJETA', 'PENDIENTE', 'DIA_ESPECTADOR', '2025-06-25 18:30:00'),
-(1, 6, 'G6', 'TARJETA', 'CONFIRMADA', 'DIA_ESPECTADOR', '2025-06-25 15:00:00'),
-(2, 6, 'G8', 'TARJETA', 'CONFIRMADA', 'NORMAL', '2025-06-21 20:00:00'),
-(4, 7, 'H9', 'EFECTIVO', 'CANCELADA', 'NORMAL', '2025-06-22 19:30:00'),
-(5, 8, 'I10', 'TARJETA', 'PENDIENTE', 'DIA_ESPECTADOR', '2025-07-02 21:15:00'),
-(1, 9, 'J11', 'TARJETA', 'CONFIRMADA', 'NORMAL', '2025-07-05 22:00:00'),
-(4, 10, 'K12', 'TARJETA', 'CONFIRMADA', 'NORMAL', '2025-07-06 12:00:00'),
-(6, 11, 'L13', 'EFECTIVO', 'PENDIENTE', 'DIA_ESPECTADOR', '2025-07-09 13:30:00'),
-(7, 12, 'M14', 'TARJETA', 'CONFIRMADA', 'NORMAL', '2025-07-08 15:45:00'),
-(8, 13, 'N15', 'TARJETA', 'CANCELADA', 'NORMAL', '2025-07-08 17:20:00'),
-(9, 14, 'O16', 'EFECTIVO', 'CONFIRMADA', 'DIA_ESPECTADOR', '2025-07-10 19:00:00'),
-(10, 15, 'P17', 'TARJETA', 'PENDIENTE', 'NORMAL', '2025-07-11 20:30:00'),
-(11, 16, 'Q18', 'TARJETA', 'CONFIRMADA', 'DIA_ESPECTADOR', '2025-07-16 21:45:00')
-(12, 17, 'R19', 'EFECTIVO', 'CANCELADA', 'NORMAL', '2025-07-17 22:15:00'),
-(13, 18, 'S20', 'TARJETA', 'CONFIRMADA', 'DIA_ESPECTADOR', '2025-07-18 23:00:00'),
-(14, 19, 'T21', 'TARJETA', 'PENDIENTE', 'NORMAL', '2025-07-20 10:30:00');
+INSERT INTO reservas (usuario_id, proyeccion_id, numero_asiento, metodo_pago, estado_reserva, tipo_entrada, fecha_reserva, precio_entrada) VALUES
+(2, 1, 'A1', 'TARJETA', 'CONFIRMADA', 'NORMAL', '2025-06-17 10:00:00', '7.50'),
+(2, 2, 'B3', 'EFECTIVO', 'PENDIENTE', 'NORMAL', '2025-06-17 11:30:00', '7.50'),
+(3, 1, 'C4', 'TARJETA', 'CONFIRMADA', 'DIA_ESPECTADOR', '2025-06-18 09:15:00', '3.00'),
+(4, 3, 'D5', 'TARJETA', 'CANCELADA', 'NORMAL', '2025-06-19 14:20:00', '7.50'),
+(3, 4, 'E2', 'EFECTIVO', 'CONFIRMADA', 'NORMAL', '2025-06-20 16:45:00', '7.50'),
+(2, 5, 'F7', 'TARJETA', 'PENDIENTE', 'DIA_ESPECTADOR', '2025-06-25 18:30:00', '3.00'),
+(1, 6, 'G6', 'TARJETA', 'CONFIRMADA', 'DIA_ESPECTADOR', '2025-06-25 15:00:00', '3.00'),
+(2, 6, 'G8', 'TARJETA', 'CONFIRMADA', 'NORMAL', '2025-06-21 20:00:00', '7.50'),
+(4, 7, 'H9', 'EFECTIVO', 'CANCELADA', 'NORMAL', '2025-06-22 19:30:00', '7.50'),
+(5, 8, 'I10', 'TARJETA', 'PENDIENTE', 'DIA_ESPECTADOR', '2025-07-02 21:15:00', '3.00'),
+(1, 9, 'J11', 'TARJETA', 'CONFIRMADA', 'NORMAL', '2025-07-05 22:00:00', '7.50'),
+(4, 10, 'K12', 'TARJETA', 'CONFIRMADA', 'NORMAL', '2025-07-06 12:00:00', '7.50');
 -- fin tablas Reservas.
 
 
