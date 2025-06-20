@@ -1,8 +1,9 @@
-package cine.cartelera.cine.services;
+package cine.cartelera.cine.services.impl;
 
 import cine.cartelera.cine.entities.Usuario;
 import cine.cartelera.cine.enums.User_Role;
 import cine.cartelera.cine.repositories.UsuarioRepository;
+import cine.cartelera.cine.services.UsuarioService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;

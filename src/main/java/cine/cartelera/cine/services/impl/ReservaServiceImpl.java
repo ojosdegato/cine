@@ -1,8 +1,9 @@
-package cine.cartelera.cine.services;
+package cine.cartelera.cine.services.impl;
 
 import cine.cartelera.cine.entities.Reserva;
 import cine.cartelera.cine.repositories.ReservaRepository;
 import cine.cartelera.cine.repositories.UsuarioRepository;
+import cine.cartelera.cine.services.ReservaService;
 import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
 

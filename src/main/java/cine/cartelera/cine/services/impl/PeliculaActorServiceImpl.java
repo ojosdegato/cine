@@ -1,4 +1,4 @@
-package cine.cartelera.cine.services; // Paquete para la implementación del servicio
+package cine.cartelera.cine.services.impl; // Paquete para la implementación del servicio
 
 import cine.cartelera.cine.entities.PeliculaActor;
 import cine.cartelera.cine.entities.PeliculaActorId;

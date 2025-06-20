@@ -1,7 +1,8 @@
-package cine.cartelera.cine.services;
+package cine.cartelera.cine.services.impl;
 
 import cine.cartelera.cine.entities.Actor;
 import cine.cartelera.cine.repositories.ActorRepository;
+import cine.cartelera.cine.services.ActorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
