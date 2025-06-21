@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Detalle de Proyección</title>
+</head>
+<body>
+<h2>Detalle de la Proyección</h2>
+<p><strong>ID:</strong> <span th:text="${proyeccion.id}"></span></p>
+<p><strong>Título:</strong> <span th:text="${proyeccion.titulo}"></span></p>
+<p><strong>Fecha:</strong> <span th:text="${proyeccion.fecha}"></span></p>
+<p><strong>Hora:</strong> <span th:text="${proyeccion.hora}"></span></p>
+<p><strong>Sala:</strong> <span th:text="${proyeccion.sala}"></span></p>
+<a th:href="@{/proyecciones}">Volver al listado</a>
+</body>
+</html>

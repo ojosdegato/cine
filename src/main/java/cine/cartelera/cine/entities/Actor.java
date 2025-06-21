@@ -22,6 +22,9 @@ public class Actor {
     @Column(name = "fecha_nacimiento") // Mapea a un nombre de columna específico
     private LocalDate fechaNacimiento;
 
+    @Column(nullable = false)
+    private String nacionalidad;
+
     // Constructor vacío (necesario para JPA)
     public Actor() {
     }
@@ -31,6 +34,7 @@ public class Actor {
         this.nombre = nombre;
         this.apellido = apellido;
         this.fechaNacimiento = fechaNacimiento;
+        this.nacionalidad = nacionalidad;
     }
 
     // Getters y Setters (necesarios para acceder y modificar los campos)
@@ -66,13 +70,19 @@ public class Actor {
         this.fechaNacimiento = fechaNacimiento;
     }
 
+    public String getNacionalidad() { return nacionalidad;}
+
+    public void setNacionalidad(String nacionalidad) { this.nacionalidad = nacionalidad; }
+
     @Override
     public String toString() {
-        return "Actor{" +
-                "id=" + id +
-                ", nombre='" + nombre + '\'' +
-                ", apellido='" + apellido + '\'' +
-                ", fechaNacimiento=" + fechaNacimiento +
-                '}';
+        final StringBuilder sb = new StringBuilder("Actor{");
+        sb.append("id=").append(id);
+        sb.append(", nombre='").append(nombre).append('\'');
+        sb.append(", apellido='").append(apellido).append('\'');
+        sb.append(", fechaNacimiento=").append(fechaNacimiento);
+        sb.append(", nacionalidad='").append(nacionalidad).append('\'');
+        sb.append('}');
+        return sb.toString();
     }
 }

@@ -12,5 +12,6 @@ public interface SalaRepository extends JpaRepository<Sala, Long> {
 
     boolean existsByNombre(String nombre);
 
-    List<Sala> findByAforoGreaterThanEqual(int capacidadMinima);
+    List<Sala> findByAforoMaximoGreaterThanEqual(int aforoMaximo);
+
 }

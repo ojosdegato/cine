@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Listado de Proyecciones</title>
+</head>
+<body>
+<h2>Listado de Proyecciones</h2>
+<a th:href="@{/proyecciones/nuevo}">Nueva Proyección</a>
+<table border="1">
+  <thead>
+  <tr>
+    <th>ID</th>
+    <th>Título</th>
+    <th>Fecha</th>
+    <th>Hora</th>
+    <th>Sala</th>
+    <th>Acciones</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr th:each="proyeccion : ${proyecciones}">
+    <td th:text="${proyeccion.id}"></td>
+    <td th:text="${proyeccion.titulo}"></td>
+    <td th:text="${proyeccion.fecha}"></td>
+    <td th:text="${proyeccion.hora}"></td>
+    <td th:text="${proyeccion.sala}"></td>
+    <td>
+      <a th:href="@{'/proyecciones/' + ${proyeccion.id}}">Ver</a> |
+      <a th:href="@{'/proyecciones/editar/' + ${proyeccion.id}}">Editar</a> |
+      <a th:href="@{'/proyecciones/eliminar/' + ${proyeccion.id}}">Eliminar</a>
+    </td>
+  </tr>
+  </tbody>
+</table>
+</body>
+</html>

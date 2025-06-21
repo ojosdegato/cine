@@ -1,78 +1,72 @@
 package cine.cartelera.cine.controllers;
 
 import cine.cartelera.cine.entities.Usuario;
-import cine.cartelera.cine.enums.UserRole;
-import cine.cartelera.cine.services.UsuarioService;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+import cine.cartelera.cine.repositories.UsuarioRepository;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
-@Controller
-@RequestMapping("/usuarios")
+import java.util.Optional;
+
+@RestController
+@RequestMapping("api/usuarios")
 public class UsuarioController {
 
+    private final UsuarioRepository usuarioRepository;
 
-    private final UsuarioService usuarioService;
+    public UsuarioController(UsuarioRepository usuarioRepository) {this.usuarioRepository = usuarioRepository; }
 
-    public UsuarioController(UsuarioService usuarioService) {
-        this.usuarioService = usuarioService;
-    }
-
-    // Mostrar todos los usuarios
+    // Obtener todos los usuarios
     @GetMapping
-    public String listarUsuarios(Model model) {
-        List<Usuario> usuarios = usuarioService.findAll();
-        model.addAttribute("usuarios", usuarios);
+    public List<Usuario> listarUsuarios() { return usuarioRepository.findAll(); }
 
-        return "usuarios/listar";
-    }
-
-    // Buscar usuario por ID
+    // Obtener un usuario por ID
     @GetMapping("/{id}")
-    public String buscarUsuarioPorId(@PathVariable Long id, Model model) {
-        usuarioService.finById(id).ifPresent(usuario -> model.addAttribute("usuario"));
-
-        return "usuarios/detalle";
+    public ResponseEntity<Usuario> obtenerUsuario(@PathVariable Long id) {
+        Optional<Usuario> usuario = usuarioRepository.findById(id);
+        // Si el usuario existe, se devuelve;
+        return usuario.map(ResponseEntity::ok)
+                // si no existe, devuelve un 404 Not Found
+                .orElse(ResponseEntity.notFound().build());
     }
 
+    // Crear un nuevo usuario
+    @PostMapping
+    public Usuario crearUsuario(@RequestBody Usuario usuario) { return usuarioRepository.save(usuario); }
 
-    // Formulario para un nuevo usuario
-    @GetMapping("/nuevo")
-    public String mostrarFormulario(Model model) {
-        model.addAttribute("usuario", new Usuario()); // Crear un nuevo objeto Usuario
-        model.addAttribute("roles", UserRole.values()); // Enum para los roles de usuario
-
-        return "usuarios/formulario";
+    // Actualizar un usuario existente
+    @PutMapping("/{id}")
+    public ResponseEntity<Usuario> actualizarUsuario(@PathVariable Long id, @RequestBody Usuario datosActualizados) {
+        return usuarioRepository.findById(id)
+                .map(usuarioExistente -> {
+                    usuarioExistente.setUsername(datosActualizados.getUsername());
+                    usuarioExistente.setPassword(datosActualizados.getPassword());
+                    usuarioExistente.setEmail(datosActualizados.getEmail());
+                    usuarioExistente.setIsActive(datosActualizados.getIsActive());
+                    usuarioExistente.setRole(datosActualizados.getRole());
+                    Usuario actualizado = usuarioRepository.save(usuarioExistente);
+                    // Si el usuario existe, se actualiza y se devuelve;
+                    return ResponseEntity.ok(actualizado);
+                    // Si no existe, devuelve un 404 Not Found y no se actualiza
+                }).orElse(ResponseEntity.notFound().build());
     }
 
-    // Guardar usuario nuevo o editado
-    @PostMapping("/guardar")
-    public String guardarUsuario(@ModelAttribute Usuario usuario) {
-        usuarioService.save(usuario);
-
-        return "redirect:/usuarios";
-    }
-
-    // Formulario para editar
-    @GetMapping("/editar/{id}")
-    public String editarUsuario(@PathVariable Long id, Model model) {
-        usuarioService.finById(id).ifPresent(usuario -> model.addAttribute("usuario", usuario)); // Buscar el usuario por ID
-        model.addAttribute("roles", UserRole.values());
-
-        return "usuarios/formulario";
-    }
-
-    // Eliminar usuario
-    @GetMapping("/eliminar/{id}")
-    public String eliminarUsuario(@PathVariable Long id) {
-        usuarioService.deleteById(id);
-
-        return "redirect:/usuarios";
+    // Eliminar un usuario
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> eliminarUsuario(@PathVariable Long id) {
+        if (usuarioRepository.existsById(id)) {
+            usuarioRepository.deleteById(id);
+            return ResponseEntity.noContent().build(); // Devuelve 204 No Content si se elimina correctamente
+        } else {
+            return ResponseEntity.notFound().build(); // Devuelve 404 Not Found si el usuario no existe
+        }
     }
 
 }
+
+
 
 
 

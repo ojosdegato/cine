@@ -1,6 +1,10 @@
 package cine.cartelera.cine.entities;
 
 
+import cine.cartelera.cine.enums.Estado_Reserva;
+import cine.cartelera.cine.enums.Metodo_Pago;
+import cine.cartelera.cine.enums.Precio_Entrada;
+import cine.cartelera.cine.enums.Tipo_Entrada;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -31,26 +35,23 @@ public class Reserva {
     private Usuario usuario;
 
     @Column(nullable = false, unique = true)
-    private Integer numeroAsiento;
+    private String numeroAsiento;
 
     @Column(nullable = false)
-    private Double precioEntrada; // Precio de la entrada, puede ser diferente para "DIA_ESPECTADOR"
+    private Precio_Entrada precioEntrada; // Precio de la entrada, puede ser diferente para "DIA_ESPECTADOR"
 
     @Column(nullable = false)
-    private Integer cantidadEntradas;
-
-    @Column(nullable = false)
-    private String estadoReserva; // Puede ser "PENDIENTE", "CONFIRMADA", "CANCELADA"
+    private Estado_Reserva estadoReserva; // Puede ser "PENDIENTE", "CONFIRMADA", "CANCELADA"
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
-    private String metodoPago; // Puede ser "TARJETA", "EFECTIVO", etc.
+    private Metodo_Pago metodoPago; // Puede ser "TARJETA", "EFECTIVO", etc.
 
     @Column(nullable = false)
     private String fechaReserva; // Fecha en formato "YYYY-MM-DD HH:MM:SS" o similar para evitar problemas de zona horaria
 
     @Column(nullable = false)
-    private String tipoEntrada; // Puede ser "NORMAL" o "DIA_ESPECTADOR"
+    private Tipo_Entrada tipoEntrada; // Puede ser "NORMAL" o "DIA_ESPECTADOR"
 
     public LocalDateTime getFechaProyeccion() {
         return null;

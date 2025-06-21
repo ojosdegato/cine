@@ -1,7 +1,8 @@
-package cine.cartelera.cine.services;
+package cine.cartelera.cine.services.impl;
 
 import cine.cartelera.cine.entities.Pelicula;
 import cine.cartelera.cine.repositories.PeliculaRepository;
+import cine.cartelera.cine.services.PeliculaService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
