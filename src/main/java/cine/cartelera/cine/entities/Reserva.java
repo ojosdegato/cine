@@ -8,7 +8,6 @@ import cine.cartelera.cine.enums.Tipo_Entrada;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Getter
@@ -53,9 +52,9 @@ public class Reserva {
     @Column(nullable = false)
     private Tipo_Entrada tipoEntrada; // Puede ser "NORMAL" o "DIA_ESPECTADOR"
 
-    public LocalDateTime getFechaProyeccion() {
-        return null;
-    }
+    public LocalDateTime getFechaProyeccion() { return null; }
 
-    public void setPrecioEntrada(BigDecimal bigDecimal) {}
+    public void setPrecioEntrada(Precio_Entrada bigDecimal) {}
+
+
 }
