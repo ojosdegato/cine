@@ -11,6 +11,8 @@ import java.util.Optional;
 
 public interface UsuarioService {
 
+    private final ReservaRepository reservaRepository;
+
     List<Usuario> findAll();
 
     Optional<Usuario> findById(@NotNull(message = "El ID del usuario no puede ser nulo") Long id);
