@@ -37,6 +37,7 @@ INSERT INTO peliculas (titulo, genero, duracion, clasificacion_edad, director, p
 
 -- fin tablas Peliculas.
 
+
 CREATE TABLE IF NOT EXISTS salas (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(100) NOT NULL,
