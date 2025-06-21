@@ -3,6 +3,7 @@ package cine.cartelera.cine.services;
 import cine.cartelera.cine.entities.Usuario;
 import cine.cartelera.cine.enums.User_Role;
 
+import cine.cartelera.cine.repositories.ReservaRepository;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -10,8 +11,6 @@ import java.util.List;
 import java.util.Optional;
 
 public interface UsuarioService {
-
-    private final ReservaRepository reservaRepository;
 
     List<Usuario> findAll();
 

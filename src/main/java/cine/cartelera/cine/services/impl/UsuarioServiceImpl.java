@@ -2,6 +2,7 @@ package cine.cartelera.cine.services.impl;
 
 import cine.cartelera.cine.entities.Usuario;
 import cine.cartelera.cine.enums.User_Role;
+import cine.cartelera.cine.repositories.ReservaRepository;
 import cine.cartelera.cine.repositories.UsuarioRepository;
 import cine.cartelera.cine.services.UsuarioService;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +18,9 @@ import java.util.Optional;
 public class UsuarioServiceImpl implements UsuarioService {
 
     private final UsuarioRepository usuarioRepository;
+    private final ReservaRepository reservaRepository;
+
+
 
     @Override
     public List<Usuario> findAll() {
