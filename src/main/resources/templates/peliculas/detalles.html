@@ -93,6 +93,18 @@
     <td th:text="${pelicula.clasificacionEdad + ' años'}">Edad</td>
   </tr>
   <tr>
+    <th>Director</th>
+    <td th:text="${pelicula.director}">Director</td>
+  </tr>
+  <tr>
+    <th>Productor</th>
+    <td th:text="${pelicula.productor}">Productor</td>
+  </tr>
+  <tr>
+    <th>Año</th>
+    <td th:text="${pelicula.anio}">Año</td>
+  </tr>
+  <tr>
     <th>Sinopsis</th>
     <td th:text="${pelicula.sinopsis}">Sinopsis</td>
   </tr>
@@ -101,6 +113,7 @@
     <td><a th:href="${pelicula.trailer}" target="_blank">Ver Tráiler</a></td>
   </tr>
 </table>
+
 
 <div class="volver">
   <a th:href="@{/peliculas}">⬅️ Volver al listado</a>

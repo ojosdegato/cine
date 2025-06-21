@@ -47,12 +47,16 @@ public class PeliculaController {
                     peliculaExistente.setGenero(datosActualizados.getGenero());
                     peliculaExistente.setDuracion(datosActualizados.getDuracion());
                     peliculaExistente.setClasificacionEdad(datosActualizados.getClasificacionEdad());
+                    peliculaExistente.setDirector(datosActualizados.getDirector());
+                    peliculaExistente.setProductor(datosActualizados.getProductor());
+                    peliculaExistente.setAnio(datosActualizados.getAnio());
                     peliculaExistente.setSinopsis(datosActualizados.getSinopsis());
                     peliculaExistente.setTrailer(datosActualizados.getTrailer());
                     Pelicula actualizada = peliculaRepository.save(peliculaExistente);
                     return ResponseEntity.ok(actualizada);
                 }).orElse(ResponseEntity.notFound().build());
     }
+
 
     // Eliminar una película
     @DeleteMapping("/{id}")

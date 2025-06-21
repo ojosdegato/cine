@@ -201,6 +201,9 @@
     <th>Género</th>
     <th>Duración</th>
     <th>Edad</th>
+    <th>Director</th>
+    <th>Productor</th>
+    <th>Año</th>
     <th>Acciones</th>
   </tr>
   </thead>
@@ -210,6 +213,9 @@
     <td th:text="${p.genero}">Género</td>
     <td th:text="${p.duracion + ' min'}">Duración</td>
     <td th:text="${p.clasificacionEdad + '+'}">Edad</td>
+    <td th:text="${p.director}">Director</td>
+    <td th:text="${p.productor}">Productor</td>
+    <td th:text="${p.anio}">Año</td>
     <td class="acciones">
       <a th:href="@{'/peliculas/editar/' + ${p.id}}">✏️ Editar</a>
       <a th:href="@{'/peliculas/detalles/' + ${p.id}}">🔍 Ver Detalles</a>
@@ -218,6 +224,7 @@
   </tr>
   </tbody>
 </table>
+
 <!-- Botón de ayuda JS -->
 <script>
   document.getElementById('helpBtn').addEventListener('click', function() {

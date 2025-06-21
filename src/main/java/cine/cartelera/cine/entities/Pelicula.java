@@ -19,6 +19,12 @@ public class Pelicula {
     @Column(name = "clasificacion_edad")
     private int clasificacionEdad;
 
+    private String director;
+
+    private String productor;
+
+    private int anio;
+
     @Column(length = 1000)
     private String sinopsis;
 
@@ -28,11 +34,14 @@ public class Pelicula {
     public Pelicula() {
     }
 
-    public Pelicula(String titulo, String genero, int duracion, int clasificacionEdad, String sinopsis, String trailer) {
+    public Pelicula(String titulo, String genero, int duracion, int clasificacionEdad, String director, String productor, int anio, String sinopsis, String trailer) {
         this.titulo = titulo;
         this.genero = genero;
         this.duracion = duracion;
         this.clasificacionEdad = clasificacionEdad;
+        this.director = director;
+        this.productor = productor;
+        this.anio = anio;
         this.sinopsis = sinopsis;
         this.trailer = trailer;
     }
@@ -78,6 +87,30 @@ public class Pelicula {
         this.clasificacionEdad = clasificacionEdad;
     }
 
+    public String getDirector() {
+        return director;
+    }
+
+    public void setDirector(String director) {
+        this.director = director;
+    }
+
+    public String getProductor() {
+        return productor;
+    }
+
+    public void setProductor(String productor) {
+        this.productor = productor;
+    }
+
+    public int getAnio() {
+        return anio;
+    }
+
+    public void setAnio(int anio) {
+        this.anio = anio;
+    }
+
     public String getSinopsis() {
         return sinopsis;
     }
@@ -102,6 +135,9 @@ public class Pelicula {
                 ", genero='" + genero + '\'' +
                 ", duracion=" + duracion +
                 ", clasificacionEdad=" + clasificacionEdad +
+                ", director='" + director + '\'' +
+                ", productor='" + productor + '\'' +
+                ", anio=" + anio +
                 ", sinopsis='" + sinopsis + '\'' +
                 ", trailer='" + trailer + '\'' +
                 '}';
