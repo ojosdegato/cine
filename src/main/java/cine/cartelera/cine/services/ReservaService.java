@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface ReservaService {
+
     List<Reserva> findAll();
     Optional<Reserva> findById(Long id);
     Reserva save(Reserva reserva);
@@ -24,6 +25,5 @@ public interface ReservaService {
     Long countEntradasReservadasPorUsuario(Long usuarioId);
     Long countEntradasPorMetodoPago(Long usuarioId, String metodoPago);
     List<BigDecimal> countEntradasPorTipo(Long usuarioId);
-
 }
 
