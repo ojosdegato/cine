@@ -31,10 +31,11 @@ public class Usuario {
     @Builder.Default
     private Boolean isActive = true;
 
+
+    @Column(name = "rol", nullable = false)
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
     @Builder.Default
-    private User_Role role = User_Role.USER;
+    private User_Role role = User_Role.USUARIO;
 
     // Setter correcto para isActive
     public void setIsActive(@NotNull(message = "El estado activo no puede ser nulo") Boolean isActive) {
