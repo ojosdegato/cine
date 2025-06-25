@@ -6,6 +6,7 @@ Tecnologías:
 * HTML, Bootstrap CSS
 * Thymeleaf
 * Base de datos: H2 y eventualmente MySQL
+* Lombok
 * Git y GitHub
 
 TAREAS DEL PROYECTO CARTELERA DE CINE
@@ -68,30 +69,26 @@ Tareas que vamos a implementar en el proyecto:
 *    Integer asientosDisponibles
 *    String tipoSala
 
-Hacer entidades y repositorios, controladores, servicios, HTMLs, CSS, Tablas BD en data.sql.
+Objetivos para el proyecto
 
-Utilizamos la base de datos H2
+* Entidades, repositorios, controladores, servicios, HTMLs, CSS, Tablas BD en data.sql.
+* Utilizamos la base de datos H2
+* Implementar start.html con logo para enlazar todos los html del proyecto y pagina error.html + CSS (Javier Cachón)
+* Boton de información y ayuda al usuario en la aplicación (Iñigo).
+* Logo (Iñigo).
+* Entidad Actores de la película (Iñigo).
+* Entidad Usuario (David)
 
-Implementar start.html con logo para enlazar todos los html del proyecto y pagina error.html + CSS (Javier Cachón)
-
-Tareas que tenemos dudas en implementar:
-
-•	Métodos de pago (tarjeta, PayPal, efectivo).
-•	Posibilidad de ver la película en el cine o ver la película en tu casa.
-
-         Tareas por si queda tiempo.
-•	Actores y director de la película.
-•	Confirmación de compra (correo electrónico con código QR).
-•	Sistema de reseñas y valoraciones de películas
-
-
-
-Tareas que no pensamos implementar:
+Tareas que se pueden hacer en el futuro
 •	Control de ingresos (ventas diarias, estadísticas de ocupación).
 •	Selección de asientos (mapa interactivo de la sala)
 •	Gestión de empleados (turnos, funciones, permisos).
 •	Historial de compras para usuarios registrados.
 •	Gestión de salas (capacidad, tipo de proyección: 2D, 3D, IMAX).
+•	Confirmación de compra (correo electrónico con código QR).
+•	Sistema de reseñas y valoraciones de películas
+•	Métodos de pago (tarjeta, PayPal, efectivo).
+•	Posibilidad de ver la película en el cine o ver la película en tu casa.
 
 
 Como preguntar a IA
