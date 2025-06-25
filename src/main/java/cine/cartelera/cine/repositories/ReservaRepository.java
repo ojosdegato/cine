@@ -2,6 +2,7 @@ package cine.cartelera.cine.repositories;
 
 import cine.cartelera.cine.entities.Reserva;
 import cine.cartelera.cine.enums.Estado_Reserva;
+import cine.cartelera.cine.enums.Precio_Entrada;
 import cine.cartelera.cine.enums.Tipo_Entrada;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -35,7 +36,7 @@ public interface ReservaRepository extends JpaRepository<Reserva, Long> {
     List<Reserva> findByFechaReservaBetween(@Param("fechaInicio") LocalDateTime fechaInicio, @Param("fechaFin") LocalDateTime fechaFin);
 
     // Buscar reservas por precio y tipo de entrada (usando los nombres correctos y el enum)
-    List<Reserva> findByPrecioEntradaAndTipoEntrada(BigDecimal precioEntrada, Tipo_Entrada tipoEntrada);
+    List<Reserva> findByPrecioEntradaAndTipoEntrada(Precio_Entrada precioEntrada, Tipo_Entrada tipoEntrada);
 
     @Query("SELECT COUNT(r) FROM Reserva r WHERE r.usuario.id = :usuarioId")
     Long countEntradasReservadasPorUsuario(@Param("usuarioId") Long usuarioId);

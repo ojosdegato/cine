@@ -152,8 +152,8 @@ public class ReservaMvcController {
 
     // Busca reservas por precio y tipo de entrada
     @GetMapping("/precioTipoEntrada")
-    public String buscarPorPrecioYTipoEntrada(@RequestParam BigDecimal precio, @RequestParam String tipoEntrada, Model model) {
-        model.addAttribute("reservas", reservaService.findByPrecioAndTipoEntrada(precio, tipoEntrada));
+    public String buscarPorPrecioYTipoEntrada(@RequestParam String precioEntrada, @RequestParam String tipoEntrada, Model model) {
+        model.addAttribute("reservas", reservaService.findByPrecioAndTipoEntrada(precioEntrada, tipoEntrada));
         return "reservas/reserva-lista";
     }
 }

@@ -2,6 +2,7 @@ package cine.cartelera.cine.services.impl;
 
 import cine.cartelera.cine.entities.Reserva;
 import cine.cartelera.cine.enums.Estado_Reserva;
+import cine.cartelera.cine.enums.Precio_Entrada;
 import cine.cartelera.cine.enums.Tipo_Entrada;
 import cine.cartelera.cine.repositories.ReservaRepository;
 import cine.cartelera.cine.repositories.UsuarioRepository;
@@ -90,9 +91,10 @@ public class ReservaServiceImpl implements ReservaService {
     }
 
     @Override
-    public List<Reserva> findByPrecioAndTipoEntrada(BigDecimal precio, String tipoEntrada) {
+    public List<Reserva> findByPrecioAndTipoEntrada(String precioEntrada, String tipoEntrada) {
         Tipo_Entrada tipo = Tipo_Entrada.valueOf(tipoEntrada);
-        return reservaRepository.findByPrecioEntradaAndTipoEntrada(precio, tipo);
+        Precio_Entrada precioEnum = Precio_Entrada.valueOf(precioEntrada);
+        return reservaRepository.findByPrecioEntradaAndTipoEntrada(precioEnum, tipo);
     }
 
     @Override
