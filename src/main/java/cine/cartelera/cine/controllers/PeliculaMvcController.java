@@ -2,9 +2,12 @@ package cine.cartelera.cine.controllers;
 
 import cine.cartelera.cine.entities.Pelicula;
 import cine.cartelera.cine.services.PeliculaService;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.Optional;
 
@@ -60,10 +63,20 @@ public class PeliculaMvcController {
         return "peliculas/formulario";
     }
 
-    // Eliminar
+    // Mostrar formulario de confirmación para eliminar
     @GetMapping("/eliminar/{id}")
-    public String eliminarPelicula(@PathVariable Long id) {
+    public String mostrarConfirmacionEliminar(@PathVariable Long id, Model model) {
+        Pelicula pelicula = peliculaService.buscarPorId(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Película no encontrada"));
+        model.addAttribute("pelicula", pelicula);
+        return "peliculas/eliminar"; // este es tu eliminar.html
+    }
+
+    // Procesar la eliminación (POST)
+    @PostMapping("/eliminar/{id}")
+    public String eliminarPelicula(@PathVariable Long id, RedirectAttributes redirectAttrs) {
         peliculaService.eliminar(id);
+        redirectAttrs.addFlashAttribute("mensaje", "Película eliminada correctamente ✅");
         return "redirect:/peliculas";
     }
 }
