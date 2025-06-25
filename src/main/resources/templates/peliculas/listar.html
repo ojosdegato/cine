@@ -157,7 +157,12 @@
   color: #000;
 }
 
-
+.imagen-container img {
+    display: block;
+    margin: 20px auto; /* centrado horizontal y margen vertical */
+    max-width: 100%;
+    height: auto;
+  }
 
 
 
@@ -167,6 +172,11 @@
 <body>
 
 <h1>Listado de Películas</h1>
+<!-- Contenedor de la imagen -->
+
+<div class="imagen-container">
+  <img src="/imagen/logo.png" alt="Cinesa">
+</div>
 
 <!-- Botón de ayuda flotante -->
 <div class="help-container">
