@@ -21,7 +21,8 @@ public interface ReservaService {
     List<Reserva> findByNumeroAsiento(String numeroAsiento);
     List<Reserva> findByFechaProyeccionBetween(String fechaInicio, String fechaFin);
     List<Reserva> findByFechaReservaBetween(String fechaInicio, String fechaFin);
-    List<Reserva> findByPrecioAndTipoEntrada(String precioEntrada, String tipoEntrada);    Long countEntradasReservadasPorUsuario(Long usuarioId);
+    List<Reserva> findByPrecioAndTipoEntrada(String precioEntrada, String tipoEntrada);
+    Long countEntradasReservadasPorUsuario(Long usuarioId);
     Long countEntradasPorMetodoPago(Long usuarioId, String metodoPago);
     List<BigDecimal> countEntradasPorTipo(Long usuarioId);
 }

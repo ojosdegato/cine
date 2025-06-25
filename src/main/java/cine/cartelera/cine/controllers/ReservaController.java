@@ -1,7 +1,6 @@
 package cine.cartelera.cine.controllers;
 
 import cine.cartelera.cine.entities.Reserva;
-import cine.cartelera.cine.enums.Precio_Entrada;
 import cine.cartelera.cine.repositories.ReservaRepository;
 import cine.cartelera.cine.services.ReservaService;
 import org.springframework.http.ResponseEntity;
@@ -27,11 +26,10 @@ public class ReservaController {
 
     // Devuelve los precios de los distintos tipos de entrada en formato JSON
     @GetMapping("/precios")
-    public ResponseEntity<Map<String, Double>> obtenerPrecios() {
-        Map<String, Double> precios = new HashMap<>();
-        for (Precio_Entrada precio : Precio_Entrada.values()) {
-            precios.put(precio.name(), precio.getPrecio());
-        }
+    public ResponseEntity<Map<String, BigDecimal>> obtenerPrecios() {
+        Map<String, BigDecimal> precios = new HashMap<>();
+        precios.put("NORMAL", new BigDecimal("7.50"));
+        precios.put("DIA_ESPECTADOR", new BigDecimal("3.00"));
         return ResponseEntity.ok(precios);
     }
 

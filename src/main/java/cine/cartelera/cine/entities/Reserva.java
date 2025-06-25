@@ -2,11 +2,11 @@ package cine.cartelera.cine.entities;
 
 import cine.cartelera.cine.enums.Estado_Reserva;
 import cine.cartelera.cine.enums.Metodo_Pago;
-import cine.cartelera.cine.enums.Precio_Entrada;
 import cine.cartelera.cine.enums.Tipo_Entrada;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Getter
@@ -34,9 +34,8 @@ public class Reserva {
     @Column(nullable = false, unique = true)
     private String numeroAsiento;
 
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private Precio_Entrada precioEntrada;
+    @Column(nullable = false, precision = 10, scale = 2)
+    private BigDecimal precioEntrada;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
@@ -55,5 +54,7 @@ public class Reserva {
 
     public LocalDateTime getFechaProyeccion() { return null; }
 
-    public void setPrecioEntrada(Precio_Entrada bigDecimal) {}
+    public void setPrecioEntrada(BigDecimal precioEntrada) {
+        this.precioEntrada = precioEntrada;
+    }
 }
