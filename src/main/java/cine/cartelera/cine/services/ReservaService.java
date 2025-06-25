@@ -1,6 +1,7 @@
 package cine.cartelera.cine.services;
 
 import cine.cartelera.cine.entities.Reserva;
+import cine.cartelera.cine.enums.Tipo_Entrada; // Nueva importación necesaria
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
@@ -24,6 +25,5 @@ public interface ReservaService {
     List<Reserva> findByPrecioAndTipoEntrada(String precioEntrada, String tipoEntrada);
     Long countEntradasReservadasPorUsuario(Long usuarioId);
     Long countEntradasPorMetodoPago(Long usuarioId, String metodoPago);
-    List<BigDecimal> countEntradasPorTipo(Long usuarioId);
+    Long countEntradasPorTipo(Long usuarioId, Tipo_Entrada tipoEntrada); // Cambiado tipo de retorno y añadido parámetro
 }
-

@@ -20,7 +20,7 @@ import java.util.Optional;
 public class ReservaServiceImpl implements ReservaService {
 
     private final ReservaRepository reservaRepository;
-    private final UsuarioRepository usuarioRepository;
+    private final UsuarioRepository usuarioRepository; // Aunque no se usa directamente en ReservaService, está inyectado.
 
     @Override
     public List<Reserva> findAll() {
@@ -64,7 +64,7 @@ public class ReservaServiceImpl implements ReservaService {
 
     @Override
     public List<Reserva> findByEstadoReserva(String estadoReserva) {
-        Estado_Reserva estado = Estado_Reserva.valueOf(estadoReserva);
+        Estado_Reserva estado = Estado_Reserva.valueOf(estadoReserva.toUpperCase()); // Asegurar mayúsculas
         return reservaRepository.findByEstadoReserva(estado);
     }
 
@@ -75,7 +75,7 @@ public class ReservaServiceImpl implements ReservaService {
 
     @Override
     public List<Reserva> findByFechaProyeccionBetween(String fechaInicio, String fechaFin) {
-        DateTimeFormatter formatter = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
+        DateTimeFormatter formatter = DateTimeFormatter.ISO_LOCAL_DATE_TIME; // O el formato que estés usando (ej. "yyyy-MM-dd'T'HH:mm:ss")
         LocalDateTime inicio = LocalDateTime.parse(fechaInicio, formatter);
         LocalDateTime fin = LocalDateTime.parse(fechaFin, formatter);
         return reservaRepository.findByFechaProyeccionBetween(inicio, fin);
@@ -83,7 +83,7 @@ public class ReservaServiceImpl implements ReservaService {
 
     @Override
     public List<Reserva> findByFechaReservaBetween(String fechaInicio, String fechaFin) {
-        DateTimeFormatter formatter = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
+        DateTimeFormatter formatter = DateTimeFormatter.ISO_LOCAL_DATE_TIME; // O el formato que estés usando
         LocalDateTime inicio = LocalDateTime.parse(fechaInicio, formatter);
         LocalDateTime fin = LocalDateTime.parse(fechaFin, formatter);
         return reservaRepository.findByFechaReservaBetween(inicio, fin);
@@ -91,7 +91,7 @@ public class ReservaServiceImpl implements ReservaService {
 
     @Override
     public List<Reserva> findByPrecioAndTipoEntrada(String precioEntrada, String tipoEntrada) {
-        Tipo_Entrada tipo = Tipo_Entrada.valueOf(tipoEntrada);
+        Tipo_Entrada tipo = Tipo_Entrada.valueOf(tipoEntrada.toUpperCase()); // Asegurar mayúsculas
         BigDecimal precio = new BigDecimal(precioEntrada);
         return reservaRepository.findByPrecioEntradaAndTipoEntrada(precio, tipo);
     }
@@ -107,8 +107,7 @@ public class ReservaServiceImpl implements ReservaService {
     }
 
     @Override
-    public List<BigDecimal> countEntradasPorTipo(Long usuarioId) {
-
-        return List.of();
+    public Long countEntradasPorTipo(Long usuarioId, Tipo_Entrada tipoEntrada) {
+        return reservaRepository.countEntradasPorTipo(usuarioId, tipoEntrada);
     }
 }

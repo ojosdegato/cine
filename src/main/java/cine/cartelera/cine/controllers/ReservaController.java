@@ -1,6 +1,7 @@
 package cine.cartelera.cine.controllers;
 
 import cine.cartelera.cine.entities.Reserva;
+import cine.cartelera.cine.enums.Tipo_Entrada;
 import cine.cartelera.cine.repositories.ReservaRepository;
 import cine.cartelera.cine.services.ReservaService;
 import org.springframework.http.ResponseEntity;
@@ -97,11 +98,24 @@ public class ReservaController {
     }
 
     // Contar entradas por tipo
-    @GetMapping("/countEntradasPorTipo/{usuarioId}")
-    public ResponseEntity<List<BigDecimal>> countEntradasPorTipo(@PathVariable Long usuarioId) {
-        List<BigDecimal> counts = reservaService.countEntradasPorTipo(usuarioId);
-        return ResponseEntity.ok(counts);
-    }
-}
 
+    @GetMapping("/countEntradasPorTipo/{usuarioId}")
+    public ResponseEntity<Map<String, Object>> countEntradasPorTipo(
+            @PathVariable Long usuarioId,
+            @RequestParam String tipoEntrada) {
+        Map<String, Object> response = new HashMap<>();
+        try {
+            Tipo_Entrada tipoEnum = Tipo_Entrada.valueOf(tipoEntrada.toUpperCase());
+            Long count = reservaService.countEntradasPorTipo(usuarioId, tipoEnum);
+            response.put("count", count);
+            response.put("usuarioId", usuarioId);
+            response.put("tipoEntrada", tipoEntrada);
+            return ResponseEntity.ok(response);
+        } catch (IllegalArgumentException e) {
+            response.put("error", "Tipo de entrada no válido.");
+            return ResponseEntity.badRequest().body(response);
+        }
+    }
+
+}
 
