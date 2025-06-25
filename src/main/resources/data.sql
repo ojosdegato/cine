@@ -82,12 +82,12 @@ CREATE TABLE IF NOT EXISTS usuarios (
     username VARCHAR(50) NOT NULL,
     email VARCHAR(100) NOT NULL,
     password VARCHAR(100) NOT NULL,
-    rol VARCHAR(20) NOT NULL,
+    role VARCHAR(20) NOT NULL,
     activo BOOLEAN NOT NULL
 );
 
 -- Insertar los usuarios de la entidad Usuario por David Jiménez.
-INSERT INTO usuarios (username, email, password, rol, activo) VALUES
+INSERT INTO usuarios (username, email, password, role, activo) VALUES
 ('admin', '@admin.com', 'admin123', 'ADMIN', true),
 ('usuario1', '@usuario1.com', 'usuario123', 'USUARIO', true),
 ('usuario2', '@usuario2.com', 'usuario223', 'USUARIO', true),
