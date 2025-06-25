@@ -1,6 +1,8 @@
 package cine.cartelera.cine.services.impl;
 
 import cine.cartelera.cine.entities.Reserva;
+import cine.cartelera.cine.enums.Estado_Reserva;
+import cine.cartelera.cine.enums.Tipo_Entrada;
 import cine.cartelera.cine.repositories.ReservaRepository;
 import cine.cartelera.cine.repositories.UsuarioRepository;
 import cine.cartelera.cine.services.ReservaService;
@@ -8,6 +10,8 @@ import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 
@@ -30,7 +34,6 @@ public class ReservaServiceImpl implements ReservaService {
 
     @Override
     public Reserva save(Reserva reserva) {
-        // lógica de guardado
         return reservaRepository.save(reserva);
     }
 
@@ -46,58 +49,66 @@ public class ReservaServiceImpl implements ReservaService {
 
     @Override
     public List<Reserva> findByProyeccionId(Long proyeccionId) {
-        return List.of();
+        return reservaRepository.findByProyeccion_Id(proyeccionId);
     }
 
     @Override
     public List<Reserva> findBySalaId(Long salaId) {
-        return List.of();
+        return reservaRepository.findByProyeccion_Sala_Id(salaId);
     }
 
     @Override
     public List<Reserva> findByPeliculaId(Long peliculaId) {
-        return List.of();
+        return reservaRepository.findByProyeccion_Pelicula_Id(peliculaId);
     }
 
     @Override
     public List<Reserva> findByEstadoReserva(String estadoReserva) {
-        return List.of();
+        Estado_Reserva estado = Estado_Reserva.valueOf(estadoReserva);
+        return reservaRepository.findByEstadoReserva(estado);
     }
 
     @Override
     public List<Reserva> findByNumeroAsiento(String numeroAsiento) {
-        return List.of();
+        return reservaRepository.findByNumeroAsiento(numeroAsiento);
     }
 
     @Override
     public List<Reserva> findByFechaProyeccionBetween(String fechaInicio, String fechaFin) {
-        return List.of();
+        DateTimeFormatter formatter = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
+        LocalDateTime inicio = LocalDateTime.parse(fechaInicio, formatter);
+        LocalDateTime fin = LocalDateTime.parse(fechaFin, formatter);
+        return reservaRepository.findByFechaProyeccionBetween(inicio, fin);
     }
 
     @Override
     public List<Reserva> findByFechaReservaBetween(String fechaInicio, String fechaFin) {
-        return List.of();
+        DateTimeFormatter formatter = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
+        LocalDateTime inicio = LocalDateTime.parse(fechaInicio, formatter);
+        LocalDateTime fin = LocalDateTime.parse(fechaFin, formatter);
+        return reservaRepository.findByFechaReservaBetween(inicio, fin);
     }
 
     @Override
-    public List<Reserva> findByPrecioAndTipoEntrada(BigDecimal precio, String tipoEntrada) {
-        return List.of();
+    public List<Reserva> findByPrecioAndTipoEntrada(String precioEntrada, String tipoEntrada) {
+        Tipo_Entrada tipo = Tipo_Entrada.valueOf(tipoEntrada);
+        BigDecimal precio = new BigDecimal(precioEntrada);
+        return reservaRepository.findByPrecioEntradaAndTipoEntrada(precio, tipo);
     }
 
     @Override
     public Long countEntradasReservadasPorUsuario(Long usuarioId) {
-        return 0L;
+        return reservaRepository.countEntradasReservadasPorUsuario(usuarioId);
     }
 
     @Override
     public Long countEntradasPorMetodoPago(Long usuarioId, String metodoPago) {
-        return 0L;
+        return reservaRepository.countEntradasPorMetodoPago(usuarioId, metodoPago);
     }
 
     @Override
     public List<BigDecimal> countEntradasPorTipo(Long usuarioId) {
+
         return List.of();
     }
-
-
 }

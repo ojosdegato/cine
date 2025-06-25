@@ -79,37 +79,27 @@ INSERT INTO proyecciones (fecha_hora, sala_id, pelicula_id) VALUES
 -- Crear la tabla de usuarios de la entidad Usuario por David Jiménez.
 CREATE TABLE IF NOT EXISTS usuarios (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    nombre VARCHAR(255) NOT NULL,
-    apellidos VARCHAR(255) NOT NULL,
-    email VARCHAR(255) UNIQUE NOT NULL,
-    password VARCHAR(255) NOT NULL,
-    rol ENUM('ADMIN', 'USUARIO') DEFAULT 'USUARIO',
-    activo BOOLEAN DEFAULT true
+    username VARCHAR(50) NOT NULL,
+    email VARCHAR(100) NOT NULL,
+    password VARCHAR(100) NOT NULL,
+    role VARCHAR(20) NOT NULL,
+    activo BOOLEAN NOT NULL
 );
 
 -- Insertar los usuarios de la entidad Usuario por David Jiménez.
-INSERT INTO usuarios (nombre, apellidos, email, password, rol, activo) VALUES
-('Admin', 'Sistema', 'admin@cine.com', '$2a$10$xvvxPrwq9xR3qV7kyHUBm.PzzYTJRbVr1yj8HXtjW8j3GKQxLzrr.', 'ADMIN', true),
-('María', 'García López', 'maria@email.com', '$2a$10$xvvxPrwq9xR3qV7kyHUBm.PzzYTJRbVr1yj8HXtjW8j3GKQxLzrr.', 'USUARIO', true),
-('Juan', 'Pérez Martínez', 'juan@email.com', '$2a$10$xvvxPrwq9xR3qV7kyHUBm.PzzYTJRbVr1yj8HXtjW8j3GKQxLzrr.', 'USUARIO', true),
-('Ana', 'Rodríguez Sánchez', 'ana@email.com', '$2a$10$xvvxPrwq9xR3qV7kyHUBm.PzzYTJRbVr1yj8HXtjW8j3GKQxLzrr.', 'USUARIO', true),
-('Carlos', 'Martín Ruiz', 'carlos@email.com', '$2a$10$xvvxPrwq9xR3qV7kyHUBm.PzzYTJRbVr1yj8HXtjW8j3GKQxLzrr.', 'USUARIO', false),
-('Mario', 'Fernández Gómez', 'fernandez@email.com', '$2a$10$xvvxPrwq9xR3qV7kyHUBm.PzzYTJRbVr1yj8HXtjW8j3GKQxLzrr.', 'USUARIO', false),
-('Lucía', 'Santos Díaz', 'lucia@email.com', '$2a$10$xvvxPrwq9xR3qV7kyHUBm.PzzYTJRbVr1yj8HXtjW8j3GKQxLzrr.', 'USUARIO', true),
-('Pedro', 'López Torres', 'pedro@email.com', '$2a$10$xvvxPrwq9xR3qV7kyHUBm.PzzYTJRbVr1yj8HXtjW8j3GKQxLzrr.', 'USUARIO', false),
-('Sofía', 'Ramírez Gil', 'sofia@email.com', '$2a$10$xvvxPrwq9xR3qV7kyHUBm.PzzYTJRbVr1yj8HXtjW8j3GKQxLzrr.', 'USUARIO', true),
-('Miguel', 'Navarro Peña', 'miguel@email.com', '$2a$10$xvvxPrwq9xR3qV7kyHUBm.PzzYTJRbVr1yj8HXtjW8j3GKQxLzrr.', 'USUARIO', true),
-('Elena', 'Vega Romero', 'elena@email.com', '$2a$10$xvvxPrwq9xR3qV7kyHUBm.PzzYTJRbVr1yj8HXtjW8j3GKQxLzrr.', 'USUARIO', false),
-('Patricia', 'Moreno Díaz', 'patricia@email.com', '$2a$10$xvvxPrwq9xR3qV7kyHUBm.PzzYTJRbVr1yj8HXtjW8j3GKQxLzrr.', 'USUARIO', true),
-('Alberto', 'Serrano López', 'alberto@email.com', '$2a$10$xvvxPrwq9xR3qV7kyHUBm.PzzYTJRbVr1yj8HXtjW8j3GKQxLzrr.', 'USUARIO', false),
-('Raquel', 'Castro Jiménez', 'raquel@email.com', '$2a$10$xvvxPrwq9xR3qV7kyHUBm.PzzYTJRbVr1yj8HXtjW8j3GKQxLzrr.', 'USUARIO', true),
-('Laura', 'Gómez Ruiz', 'laura@email.com', '$2a$10$xvvxPrwq9xR3qV7kyHUBm.PzzYTJRbVr1yj8HXtjW8j3GKQxLzrr.', 'USUARIO', true),
-('Javier', 'Sánchez León', 'javier@email.com', '$2a$10$xvvxPrwq9xR3qV7kyHUBm.PzzYTJRbVr1yj8HXtjW8j3GKQxLzrr.', 'USUARIO', false),
-('Marta', 'Ortega Pérez', 'marta@email.com', '$2a$10$xvvxPrwq9xR3qV7kyHUBm.PzzYTJRbVr1yj8HXtjW8j3GKQxLzrr.', 'USUARIO', true),
-('David', 'Cabrera Soto', 'david@email.com', '$2a$10$xvvxPrwq9xR3qV7kyHUBm.PzzYTJRbVr1yj8HXtjW8j3GKQxLzrr.', 'USUARIO', false),
-('Cristina', 'Luna Ramos', 'cristina@email.com', '$2a$10$xvvxPrwq9xR3qV7kyHUBm.PzzYTJRbVr1yj8HXtjW8j3GKQxLzrr.', 'USUARIO', true),
-('Rubén', 'Molina Vera', 'ruben@email.com', '$2a$10$xvvxPrwq9xR3qV7kyHUBm.PzzYTJRbVr1yj8HXtjW8j3GKQxLzrr.', 'USUARIO', false),
-('Isabel', 'Pérez Fernández', 'isabel@email.com', '$2a$10$xvvxPrwq9xR3qV7kyHUBm.PzzYTJRbVr1yj8HXtjW8j3GKQxLzrr.', 'USUARIO', false);
+INSERT INTO usuarios (username, email, password, role, activo) VALUES
+('admin', '@admin.com', 'admin123', 'ADMIN', true),
+('usuario1', '@usuario1.com', 'usuario123', 'USUARIO', true),
+('usuario2', '@usuario2.com', 'usuario223', 'USUARIO', true),
+('usuario3', '@usuario3.com', 'usuario323', 'USUARIO', true),
+('usuario4', '@usuario4.com', 'usuario423', 'USUARIO', true),
+('usuario5', '@usuario5.com', 'usuario523', 'USUARIO', true),
+('usario6', '@usuario6.com', 'usuario623', 'USUARIO', true),
+('usuario7', '@usuario7.com', 'usuario723', 'USUARIO', true),
+('usuario8', '@usuario8.com', 'usuario823', 'USUARIO', true),
+('usuario9', '@usuario9.com', 'usuario923', 'USUARIO', true),
+('usuario10', '@usuario10.com', 'usuario1023', 'USUARIO', true);
+
 -- fin tablas Usuarios.
 
 -- Crear la tabla de reservas de la entidad Reserva por David Jiménez.
@@ -117,14 +107,15 @@ CREATE TABLE IF NOT EXISTS reservas (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     usuario_id BIGINT NOT NULL,
     proyeccion_id BIGINT NOT NULL,
-    numero_asiento VARCHAR(10) NOT NULL UNIQUE,
+    numero_asiento VARCHAR(10) NOT NULL,
     metodo_pago ENUM('TARJETA', 'EFECTIVO') NOT NULL,
     estado_reserva ENUM('PENDIENTE', 'CONFIRMADA', 'CANCELADA') NOT NULL,
     tipo_entrada ENUM('NORMAL', 'DIA_ESPECTADOR') NOT NULL,
     fecha_reserva DATETIME NOT NULL,
     precio_entrada DOUBLE NOT NULL,
     FOREIGN KEY (usuario_id) REFERENCES usuarios(id),
-    FOREIGN KEY (proyeccion_id) REFERENCES proyecciones(id)
+    FOREIGN KEY (proyeccion_id) REFERENCES proyecciones(id),
+    UNIQUE (usuario_id, proyeccion_id, numero_asiento)
 );
 
 -- Insertar las reservas de la entidad Reserva por David Jiménez.

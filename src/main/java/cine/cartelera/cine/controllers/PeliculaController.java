@@ -4,11 +4,11 @@ import cine.cartelera.cine.entities.Pelicula;
 import cine.cartelera.cine.repositories.PeliculaRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
+import org.springframework.stereotype.Controller;
 import java.util.List;
 import java.util.Optional;
 
-@RestController
+@Controller
 @RequestMapping("/api/peliculas")
 public class PeliculaController {
 

@@ -2,8 +2,8 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title th:text="${usuario.id != null ? 'Editar Usuario' : 'Nuevo Usuario'}">Usuario</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title th:text="${usuario.id == null ? 'Nuevo Usuario' : 'Editar Usuario'}">Formulario de Usuario</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" th:href="@{/webjars/font-awesome/css/all.css}">
 </head>
@@ -11,77 +11,70 @@
 <div th:replace="~{fragments/navbar :: navbar}"></div>
 
 <div class="container mt-4">
-    <div class="card">
-        <div class="card-body">
-            <h2 class="card-title mb-4" th:text="${usuario.id != null ? 'Editar Usuario' : 'Nuevo Usuario'}">Usuario</h2>
 
-            <div class="alert alert-danger" th:if="${error}" th:text="${error}"></div>
+    <div class="alert alert-info alert-dismissible fade show mb-4" role="alert">
+        <i class="fa-solid fa-circle-info me-2"></i>
+        Aquí puedes crear un nuevo usuario o editar uno existente. Asegúrate de completar todos los campos obligatorios. Si es un nuevo usuario, la contraseña es obligatoria.
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
+    </div>
 
-            <form th:action="@{/usuarios/guardar}" th:object="${usuario}" method="post">
-                <input type="hidden" th:field="*{id}">
+    <div class="card p-4">
+        <h2 class="mb-4" th:text="${usuario.id == null ? 'Nuevo Usuario' : 'Editar Usuario'}">Nuevo Usuario</h2>
+        <div class="alert alert-danger" th:if="${error}" th:text="${error}"></div>
+        <form th:action="@{/usuarios/guardar}" th:object="${usuario}" method="post" class="needs-validation" novalidate>
+            <input type="hidden" th:field="*{id}" />
 
-                <div class="row g-3">
-                    <div class="col-md-6">
-                        <label for="nombre" class="form-label">Nombre</label>
-                        <input type="text" class="form-control" id="nombre" th:field="*{nombre}" required>
-                        <div class="invalid-feedback" th:if="${#fields.hasErrors('nombre')}"
-                             th:errors="*{nombre}"></div>
-                    </div>
-
-                    <div class="col-md-6">
-                        <label for="apellidos" class="form-label">Apellidos</label>
-                        <input type="text" class="form-control" id="apellidos" th:field="*{apellidos}" required>
-                        <div class="invalid-feedback" th:if="${#fields.hasErrors('apellidos')}"
-                             th:errors="*{apellidos}"></div>
-                    </div>
-
-                    <div class="col-md-6">
-                        <label for="email" class="form-label">Email</label>
-                        <input type="email" class="form-control" id="email" th:field="*{email}" required>
-                        <div class="invalid-feedback" th:if="${#fields.hasErrors('email')}"
-                             th:errors="*{email}"></div>
-                    </div>
-
-                    <div class="col-md-6">
-                        <label for="password" class="form-label">Contraseña</label>
-                        <input type="password" class="form-control" id="password" th:field="*{password}"
-                               th:required="${usuario.id == null}">
-                        <div class="invalid-feedback" th:if="${#fields.hasErrors('password')}"
-                             th:errors="*{password}"></div>
-                        <small class="form-text text-muted" th:if="${usuario.id != null}">
-                            Dejar en blanco para mantener la contraseña actual
-                        </small>
-                    </div>
-
-                    <div class="col-md-6">
-                        <label for="rol" class="form-label">Rol</label>
-                        <select class="form-select" id="rol" th:field="*{rol}" required>
-                            <option value="">Seleccione un rol</option>
-                            <option value="ADMIN">Administrador</option>
-                            <option value="USUARIO">Usuario</option>
-                        </select>
-                        <div class="invalid-feedback" th:if="${#fields.hasErrors('rol')}"
-                             th:errors="*{rol}"></div>
-                    </div>
-
-                    <div class="col-md-6">
-                        <div class="form-check mt-4">
-                            <input class="form-check-input" type="checkbox" id="activo" th:field="*{activo}">
-                            <label class="form-check-label" for="activo">Usuario activo</label>
-                        </div>
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <label for="nombre" class="form-label">Nombre</label>
+                    <input type="text" class="form-control" id="nombre" th:field="*{nombre}" required>
+                    <div class="invalid-feedback" th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}"></div>
+                </div>
+                <div class="col-md-6">
+                    <label for="apellidos" class="form-label">Apellidos</label>
+                    <input type="text" class="form-control" id="apellidos" th:field="*{apellidos}" required>
+                    <div class="invalid-feedback" th:if="${#fields.hasErrors('apellidos')}" th:errors="*{apellidos}"></div>
+                </div>
+                <div class="col-md-6">
+                    <label for="email" class="form-label">Email</label>
+                    <input type="email" class="form-control" id="email" th:field="*{email}" required>
+                    <div class="invalid-feedback" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
+                </div>
+                <div class="col-md-6">
+                    <label for="telefono" class="form-label">Teléfono</label>
+                    <input type="text" class="form-control" id="telefono" th:field="*{telefono}" required>
+                    <div class="invalid-feedback" th:if="${#fields.hasErrors('telefono')}" th:errors="*{telefono}"></div>
+                </div>
+                <div class="col-md-6">
+                    <label for="password" class="form-label">Contraseña</label>
+                    <input type="password" class="form-control" id="password" th:field="*{password}" th:required="${usuario.id == null}">
+                    <div class="invalid-feedback" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
+                    <small class="form-text text-muted" th:if="${usuario.id != null}">
+                        Dejar en blanco para mantener la contraseña actual
+                    </small>
+                </div>
+                <div class="col-md-6">
+                    <label for="rol" class="form-label">Rol</label>
+                    <select class="form-select" id="rol" th:field="*{rol}" required>
+                        <option value="">Seleccione un rol</option>
+                        <option value="ADMIN">Administrador</option>
+                        <option value="USUARIO">Usuario</option>
+                    </select>
+                    <div class="invalid-feedback" th:if="${#fields.hasErrors('rol')}" th:errors="*{rol}"></div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-check mt-4">
+                        <input class="form-check-input" type="checkbox" id="activo" th:field="*{activo}">
+                        <label class="form-check-label" for="activo">Usuario activo</label>
                     </div>
                 </div>
+            </div>
 
-                <div class="d-grid gap-2 d-md-flex justify-content-md-center mt-4">
-                    <button type="submit" class="btn btn-primary">
-                        Guardar
-                    </button>
-                    <a th:href="@{/usuarios}" class="btn btn-secondary">
-                        Cancelar
-                    </a>
-                </div>
-            </form>
-        </div>
+            <div class="d-grid gap-2 d-md-flex justify-content-md-center mt-4">
+                <button type="submit" class="btn btn-primary">Guardar</button>
+                <a th:href="@{/usuarios}" class="btn btn-secondary">Cancelar</a>
+            </div>
+        </form>
     </div>
 </div>
 

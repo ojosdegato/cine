@@ -5,5 +5,5 @@ package cine.cartelera.cine.enums;
  */
 public enum User_Role {
     ADMIN,
-    USER;
+    USUARIO
 }

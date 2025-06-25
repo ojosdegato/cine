@@ -2,8 +2,6 @@ package cine.cartelera.cine.services;
 
 import cine.cartelera.cine.entities.Usuario;
 import cine.cartelera.cine.enums.User_Role;
-
-import cine.cartelera.cine.repositories.ReservaRepository;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -42,13 +40,5 @@ public interface UsuarioService {
 
     boolean validarCredenciales(@NotBlank(message = "El nombre de usuario no puede estar vacío") String username,
                                 @NotBlank(message = "La contraseña no puede estar vacía") String password);
-
-    List<Usuario> listarTodos();
-
-    Optional<Usuario> buscarPorId(Long id);
-
-    Usuario guardar(Usuario usuario);
-
-    void eliminar(Long id);
 }
 

@@ -10,14 +10,21 @@
 </head>
 <body>
 
-<div th:replace="~{/fragments/navbar :: navbar}"></div>
+<div replace="~{fragments/navbar :: navbar}"></div>
 
 <div class="container mt-4 mb-5">
+
+    <div class="alert alert-info alert-dismissible fade show mb-4" role="alert">
+        <i class="fa-solid fa-circle-info me-2"></i>
+        Aquí puedes ver la lista de reservas y tiens la opción de crear una nueva reserva. También puedes editar o eliminar reservas existentes, incluso
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
+    </div>
+
     <h1 class="mb-4">
-        <i class="bi bi-ticket-perforated-fill me-2"></i>Lista de Reservas
+        <i class="fa-solid fa-ticket me-2"></i>Lista de Reservas
     </h1>
     <a th:href="@{/reserva/nuevo}" class="btn btn-success mb-3">
-        <i class="bi bi-plus-circle me-2"></i>Crear nueva reserva
+        <i class="fa-solid fa-plus me-2"></i>Crear nueva reserva
     </a>
 
 
@@ -28,117 +35,59 @@
                 <th><i class="fa-solid fa-hashtag me-1"></i>ID</th>
                 <th><i class="fa-solid fa-film me-1"></i>Película</th>
                 <th><i class="fa-solid fa-user me-1"></i>Usuario</th>
-                <th><i class="fa-solid fa-calendar-days me-1"></i>Fecha</th>
+                <th><i class="fa-solid fa-calendar-alt me-1"></i>Fecha Reserva</th>
+                <th><i class="fa-solid fa-clock me-1"></i>Hora Reserva</th>
                 <th><i class="fa-solid fa-chair me-1"></i>Asientos</th>
-                <th>Estado</th>
-                <th><i class="fa-solid fa-gears me-1"></i>Acciones</th>
+                <th><i class="fa-solid fa-money-bill-wave me-1"></i>Total</th>
+                <th><i class="fa-solid fa-cogs me-1"></i>Acciones</th>
             </tr>
             </thead>
             <tbody>
-            <tr th:each="reserva : ${reservas}" class="align-middle">
+            <tr th:each="reserva : ${reservas}">
                 <td th:text="${reserva.id}"></td>
                 <td th:text="${reserva.pelicula.titulo}"></td>
                 <td th:text="${reserva.usuario.nombre}"></td>
-                <td th:text="${#temporals.format(reserva.fecha, 'dd-MM-yyyy HH:mm')}"></td>
+                <td th:text="${#temporals.format(reserva.fechaReserva, 'dd-MM-yyyy')}"></td>
+                <td th:text="${#temporals.format(reserva.horaReserva, 'HH:mm')}"></td>
                 <td th:text="${reserva.numeroAsientos}"></td>
+                <td th:text="${#numbers.formatDecimal(reserva.total, 1, 2) + '€'}"></td>
                 <td>
-                    <span th:class="${reserva.estado == 'ACTIVA' ? 'badge bg-success' : 'badge bg-danger'}"
-                          th:text="${reserva.estado}">
-                    </span>
-                </td>
-                <td>
-                    <div class="d-flex gap-1">
-                        <a th:href="@{/reservas/detalle/{id}(id=${reserva.id})}"
-                           class="btn btn-info btn-sm"
-                           title="Ver detalles de la reserva">
-                            <i class="fa-solid fa-eye"></i>Ver
-                        </a>
-                        <a th:href="@{/reservas/editar/{id}(id=${reserva.id})}"
-                           class="btn btn-warning btn-sm"
-                           title="Editar reserva">
-                            <i class="fa-solid fa-pencil-alt"></i>Editar
-                        </a>
-                        <button type="button"
-                                class="btn btn-danger btn-sm btn-delete"
-                                data-bs-toggle="modal"
-                                data-bs-target="#confirmDeleteModal"
-                                th:data-reserva-id="${reserva.id}"
-                                th:data-reserva-nombre="${reserva.pelicula.titulo}"
-                                title="Eliminar reserva">
-                            <i class="fa-solid fa-trash-alt"></i>Borrar
+                    <a th:href="@{/reserva/{id}(id=${reserva.id})}" class="btn btn-info btn-sm me-2" title="Ver detalles">
+                        <i class="fa-solid fa-eye"></i>
+                    </a>
+                    <a th:href="@{/reserva/editar/{id}(id=${reserva.id})}" class="btn btn-warning btn-sm me-2" title="Editar">
+                        <i class="fa-solid fa-edit"></i>
+                    </a>
+                    <form th:action="@{/reserva/eliminar/{id}(id=${reserva.id})}" th:method="post" style="display:inline;">
+                        <button
+                                type="submit"
+                                class="btn btn-danger btn-sm"
+                                title="Eliminar"
+                                th:attr="data-tiene-entradas=${reserva.tieneEntradasCompradas}"
+                                onclick="return confirmarEliminacion(this);">
+                            <i class="fa-solid fa-trash-alt"></i>
                         </button>
-                    </div>
+                    </form>
                 </td>
             </tr>
             </tbody>
         </table>
     </div>
-
-    <div th:unless="${reservas.isEmpty()}">
-        <small class="text-body-secondary">
-            <i class="fa-solid fa-circle-exclamation me-1"></i>
-            Total de reservas: <span th:text="${#lists.size(reservas)}"></span>
-        </small>
-    </div>
 </div>
-
-<!-- Modal de Confirmación de Eliminación -->
-<div class="modal fade" id="confirmDeleteModal">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">
-                    <i class="fa-solid fa-triangle-exclamation me-2 text-danger"></i>
-                    Confirmar eliminación
-                </h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-            </div>
-            <div class="modal-body">
-                <p>¿Estás seguro de que deseas eliminar esta reserva <strong id="reservaToDelete"></strong>?</p>
-            <div class="alert añert alert-warning mt-3">
-                <i class="fa-solid fa-triangle-exclamation me-2"></i>
-            <strong>¡Atención!</strong> Esta acción no se puede deshacer.
-            </div>
-        </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-                   <i class="fa-solid fa-xmark me-1"></i>Cancelar
-                </button>
-                <button type="button" class="btn btn-danger" id="confirmDeleteBtn">
-                    <i class="fa-solid fa-trash-can me-1"></i>Eliminar
-                </button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<form id="deleteForm" method="post" style="display: none;"></form>
-
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
-        let reservaIdToDelete = null;
-
-        document.querySelectorAll('.btn-delete').forEach(function(button) {
-            button.addEventListener('click', function() {
-                reservaIdToDelete = this.getAttribute('data-reserva-id');
-                const reservaName = this.getAttribute('data-reserva-name');
-                document.getElementById('reservaToDelete').textContent = reservaName;
-            });
-        });
-
-        document.getElementById('confirmDeleteBtn').addEventListener('click', function() {
-            if (reservaIdToDelete) {
-                const form = document.getElementById('deleteForm');
-                form.action = '/reservas/' + reservaIdToDelete + '/delete';
-                form.submit();
-            }
-        });
-    });
-
+    function confirmarEliminacion(btn) {
+        const tieneEntradas = btn.getAttribute('data-tiene-entradas') === 'true';
+        if (tieneEntradas) {
+            alert('No puedes cancelar esta reserva porque ya se han comprado entradas.');
+            return false;
+        }
+        return confirm('¿Estás seguro de que quieres eliminar esta reserva?');
+    }
 </script>
 
 </body>
 </html>
+

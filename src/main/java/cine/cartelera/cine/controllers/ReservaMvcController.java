@@ -1,7 +1,6 @@
 package cine.cartelera.cine.controllers;
 
 import cine.cartelera.cine.entities.Reserva;
-import cine.cartelera.cine.enums.Precio_Entrada;
 import cine.cartelera.cine.services.ReservaService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -35,22 +34,20 @@ public class ReservaMvcController {
     @GetMapping("/nueva")
     public String mostrarFormulario(Model model) {
         model.addAttribute("reserva", new Reserva());
-        model.addAttribute("precioNormal", Precio_Entrada.NORMAL.getPrecio());
-        model.addAttribute("precioDiaEspectador", Precio_Entrada.DIA_ESPECTADOR.getPrecio());
+        model.addAttribute("precioNormal", new BigDecimal("7.50")); // Ajusta el valor según tu lógica
+        model.addAttribute("precioDiaEspectador", new BigDecimal("3.00")); // Ajusta el valor según tu lógica
         model.addAttribute("tiposEntrada", List.of("NORMAL", "DIA_ESPECTADOR"));
         model.addAttribute("diaEspectador", "MIÉRCOLES");
         model.addAttribute("metodosPago", List.of("TARJETA", "EFECTIVO"));
         model.addAttribute("estadosReserva", List.of("PENDIENTE", "CONFIRMADA", "CANCELADA"));
         return "reservas/reserva-formulario";
     }
-
     // Guarda una reserva nueva o editada, validando los datos del formulario
     @PostMapping("/guardar")
     public String guardarReserva(@Valid @ModelAttribute Reserva reserva, BindingResult result, Model model) {
         if (result.hasErrors()) {
-            // Si hay errores de validación, vuelve al formulario con los datos necesarios
-            model.addAttribute("precioNormal", Precio_Entrada.NORMAL.getPrecio());
-            model.addAttribute("precioDiaEspectador", Precio_Entrada.DIA_ESPECTADOR.getPrecio());
+            model.addAttribute("precioNormal", new BigDecimal("7.50"));
+            model.addAttribute("precioDiaEspectador", new BigDecimal("3.00"));
             model.addAttribute("tiposEntrada", List.of("NORMAL", "DIA_ESPECTADOR"));
             model.addAttribute("diaEspectador", "MIÉRCOLES");
             model.addAttribute("metodosPago", List.of("TARJETA", "EFECTIVO"));
@@ -61,10 +58,9 @@ public class ReservaMvcController {
             reservaService.save(reserva);
             return "redirect:/reservas";
         } catch (IllegalArgumentException e) {
-            // Si ocurre un error al guardar, muestra el mensaje de error en el formulario
             model.addAttribute("error", "Error al guardar la reserva: " + e.getMessage());
-            model.addAttribute("precioNormal", Precio_Entrada.NORMAL.getPrecio());
-            model.addAttribute("precioDiaEspectador", Precio_Entrada.DIA_ESPECTADOR.getPrecio());
+            model.addAttribute("precioNormal", new BigDecimal("7.50"));
+            model.addAttribute("precioDiaEspectador", new BigDecimal("3.00"));
             model.addAttribute("diaEspectador", "MIÉRCOLES");
             model.addAttribute("tiposEntrada", List.of("NORMAL", "DIA_ESPECTADOR"));
             model.addAttribute("metodosPago", List.of("TARJETA", "EFECTIVO"));
@@ -73,13 +69,12 @@ public class ReservaMvcController {
         }
     }
 
-    // Muestra el formulario para editar una reserva existente
     @GetMapping("/editar/{id}")
     public String editarReserva(@PathVariable Long id, Model model) {
         Optional<Reserva> reserva = reservaService.findById(id);
         model.addAttribute("reserva", reserva.orElse(new Reserva()));
-        model.addAttribute("precioNormal", Precio_Entrada.NORMAL.getPrecio());
-        model.addAttribute("precioDiaEspectador", Precio_Entrada.DIA_ESPECTADOR.getPrecio());
+        model.addAttribute("precioNormal", new BigDecimal("7.50"));
+        model.addAttribute("precioDiaEspectador", new BigDecimal("3.00"));
         model.addAttribute("diaEspectador", "MIÉRCOLES");
         model.addAttribute("tiposEntrada", List.of("NORMAL", "DIA_ESPECTADOR"));
         model.addAttribute("metodosPago", List.of("TARJETA", "EFECTIVO"));
@@ -152,8 +147,8 @@ public class ReservaMvcController {
 
     // Busca reservas por precio y tipo de entrada
     @GetMapping("/precioTipoEntrada")
-    public String buscarPorPrecioYTipoEntrada(@RequestParam BigDecimal precio, @RequestParam String tipoEntrada, Model model) {
-        model.addAttribute("reservas", reservaService.findByPrecioAndTipoEntrada(precio, tipoEntrada));
+    public String buscarPorPrecioYTipoEntrada(@RequestParam String precioEntrada, @RequestParam String tipoEntrada, Model model) {
+        model.addAttribute("reservas", reservaService.findByPrecioAndTipoEntrada(precioEntrada, tipoEntrada));
         return "reservas/reserva-lista";
     }
 }

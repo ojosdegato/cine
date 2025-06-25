@@ -20,90 +20,90 @@ public class UsuarioServiceImpl implements UsuarioService {
     private final UsuarioRepository usuarioRepository;
     private final ReservaRepository reservaRepository;
 
-
-
     @Override
     public List<Usuario> findAll() {
-        return List.of();
+        return usuarioRepository.findAll();
     }
 
     @Override
     public Optional<Usuario> findById(Long id) {
-        return Optional.empty();
+        return usuarioRepository.findById(id);
     }
 
     @Override
     public Usuario save(Usuario usuario) {
-        return null;
+        return usuarioRepository.save(usuario);
     }
 
     @Override
     public void deleteById(Long id) {
-
+        usuarioRepository.deleteById(id);
     }
 
     @Override
     public List<Usuario> findByUsername(String username) {
-        return List.of();
+        return usuarioRepository.findByUsername(username);
     }
 
     @Override
     public List<Usuario> findByEmail(String email) {
-        return List.of();
+        return usuarioRepository.findByEmail(email);
     }
 
     @Override
     public List<Usuario> findByIsActive(Boolean isActive) {
-        return List.of();
+        return usuarioRepository.findByIsActive(isActive);
     }
 
     @Override
     public List<Usuario> findByRole(User_Role role) {
-        return List.of();
+        return usuarioRepository.findByRole(role);
     }
 
     @Override
     public Long contarUsuariosActivos() {
-        return 0L;
+        return usuarioRepository.countByIsActiveTrue();
     }
 
     @Override
     public Usuario actualizarEstadoCuenta(Long id, Boolean isActive) {
+        Optional<Usuario> usuarioOpt = usuarioRepository.findById(id);
+        if (usuarioOpt.isPresent()) {
+            Usuario usuario = usuarioOpt.get();
+            usuario.setIsActive(isActive);
+            return usuarioRepository.save(usuario);
+        }
         return null;
     }
 
     @Override
     public Usuario actualizarRolUsuario(Long id, User_Role role) {
+        Optional<Usuario> usuarioOpt = usuarioRepository.findById(id);
+        if (usuarioOpt.isPresent()) {
+            Usuario usuario = usuarioOpt.get();
+            usuario.setRole(role);
+            return usuarioRepository.save(usuario);
+        }
         return null;
     }
 
     @Override
     public Usuario actualizarInformacionUsuario(Long id, String username, String email) {
+        Optional<Usuario> usuarioOpt = usuarioRepository.findById(id);
+        if (usuarioOpt.isPresent()) {
+            Usuario usuario = usuarioOpt.get();
+            usuario.setUsername(username);
+            usuario.setEmail(email);
+            return usuarioRepository.save(usuario);
+        }
         return null;
     }
 
     @Override
     public boolean validarCredenciales(String username, String password) {
-        return false;
+        Optional<Usuario> usuarioOpt = usuarioRepository.findByUsername(username)
+                .stream().findFirst();
+        return usuarioOpt.isPresent() && usuarioOpt.get().getPassword().equals(password);
     }
 
-    @Override
-    public List<Usuario> listarTodos() {
-        return usuarioRepository.findAll();
-    }
-
-    @Override
-    public Optional<Usuario> buscarPorId(Long id) {
-        return usuarioRepository.findById(id);
-    }
-
-    @Override
-    public Usuario guardar(Usuario usuario) {
-        return usuarioRepository.save(usuario);
-    }
-
-    @Override
-    public void eliminar(Long id) {
-        usuarioRepository.deleteById(id);
-    }
 }

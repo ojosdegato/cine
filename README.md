@@ -6,24 +6,26 @@ Tecnologías:
 * HTML, Bootstrap CSS
 * Thymeleaf
 * Base de datos: H2 y eventualmente MySQL
+* Lombok
 * Git y GitHub
 
 TAREAS DEL PROYECTO CARTELERA DE CINE
 
 Grupo 3: Cartelera de cine https://github.com/ojosdegato/cine
-* Entidades JPA `@Entity`: Pelicula, Genero, Usuario, Proyeccion, Reserva
+* Entidades JPA `@Entity`: Pelicula, Genero, Usuario, Proyeccion, Reserva, Sala
 * Marcos González
 * David Jiménez
 * Javier Cachón
 * Íñigo Lamadrid
 * Jose Alejandro Cobaria
-* Entidades:
+
+*  Entidades:
     * Pelicula ManyToOne Categoria-Genero
     * Proyeccion: ManyToOne Pelicula
     * Reserva ManyToOne Usuario
     * Reserva ManyToOne Proyeccion
         * Ticket ManyToOne Reserva (opcional, no haría falta, la reserva ya serviría)
-
+   * Proyeccion ManyToOne Sala
 
 Tareas que vamos a implementar en el proyecto:
 
@@ -38,9 +40,9 @@ Tareas que vamos a implementar en el proyecto:
 
     •	Proyección (Marcos)
 *    Long id
-*    LocaDateTime día_hora
-*    Sala sala (OnetoMany) 
-*    Boolean asignada
+*    LocaDateTime día_horaP
+*    Sala sala (ManyToOne) 
+*    Pelicula pelicula (ManyToOne)
 
    •	Actor (Iñigo)
 *   Long id
@@ -49,7 +51,7 @@ Tareas que vamos a implementar en el proyecto:
 *   LocalDateTime fecha_nac
 *   String nacionalidad
 
-      •	 PeliculaActor (Iñigo)
+  •	 PeliculaActor (Iñigo)
 *    Long idPelicula
 *    Long idActor
 *    UserRole rol
@@ -60,29 +62,33 @@ Tareas que vamos a implementar en el proyecto:
 *   Int asientos ocupados
 *	Double Precio de la entrada
 
-Hacer entidades y repositorios, controladores, servicios, HTMLs, CSS, Tablas BD en data.sql.
+    •	Sala (Marcos)
+*    Long id
+*    String nombre
+*    Integer AforoMaximo 
+*    Integer asientosDisponibles
+*    String tipoSala
 
-Utilizamos la base de datos H2
+Objetivos para el proyecto
 
-Implementar start.html con logo para enlazar todos los html del proyecto y pagina error.html + CSS (Javier Cachón)
+* Entidades, repositorios, controladores, servicios, HTMLs, CSS, Tablas BD en data.sql.
+* Utilizamos la base de datos H2
+* Implementar start.html con logo para enlazar todos los html del proyecto y pagina error.html + CSS (Javier Cachón)
+* Boton de información y ayuda al usuario en la aplicación (Iñigo).
+* Logo (Iñigo).
+* Entidad Actores de la película (Iñigo).
+* Entidad Usuario (David)
 
-Tareas que tenemos dudas en implementar:
-
-•	Métodos de pago (tarjeta, PayPal, efectivo).
-•	Posibilidad de ver la película en el cine o ver la película en tu casa.
-Tareas por si queda tiempo.
-•	Actores y director de la película.
-•	Confirmación de compra (correo electrónico con código QR).
-•	Sistema de reseñas y valoraciones de películas
-
-
-
-Tareas que no pensamos implementar:
+Tareas que se pueden hacer en el futuro
 •	Control de ingresos (ventas diarias, estadísticas de ocupación).
 •	Selección de asientos (mapa interactivo de la sala)
 •	Gestión de empleados (turnos, funciones, permisos).
 •	Historial de compras para usuarios registrados.
 •	Gestión de salas (capacidad, tipo de proyección: 2D, 3D, IMAX).
+•	Confirmación de compra (correo electrónico con código QR).
+•	Sistema de reseñas y valoraciones de películas
+•	Métodos de pago (tarjeta, PayPal, efectivo).
+•	Posibilidad de ver la película en el cine o ver la película en tu casa.
 
 
 Como preguntar a IA
