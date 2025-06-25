@@ -1,6 +1,5 @@
 package cine.cartelera.cine.entities;
 
-
 import cine.cartelera.cine.enums.Estado_Reserva;
 import cine.cartelera.cine.enums.Metodo_Pago;
 import cine.cartelera.cine.enums.Precio_Entrada;
@@ -12,13 +11,12 @@ import java.time.LocalDateTime;
 
 @Getter
 @Setter
-@ToString (exclude = {"proyeccion", "usuario"}) //
+@ToString (exclude = {"proyeccion", "usuario"})
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @Entity
 @Table(name="reservas")
-
 public class Reserva {
 
     @Id
@@ -36,25 +34,26 @@ public class Reserva {
     @Column(nullable = false, unique = true)
     private String numeroAsiento;
 
-    @Column(nullable = false)
-    private Precio_Entrada precioEntrada; // Precio de la entrada, puede ser diferente para "DIA_ESPECTADOR"
-
-    @Column(nullable = false)
-    private Estado_Reserva estadoReserva; // Puede ser "PENDIENTE", "CONFIRMADA", "CANCELADA"
-
-    @Column(nullable = false)
     @Enumerated(EnumType.STRING)
-    private Metodo_Pago metodoPago; // Puede ser "TARJETA", "EFECTIVO", etc.
+    @Column(nullable = false)
+    private Precio_Entrada precioEntrada;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Estado_Reserva estadoReserva;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Metodo_Pago metodoPago;
 
     @Column(nullable = false)
-    private String fechaReserva; // Fecha en formato "YYYY-MM-DD HH:MM:SS" o similar para evitar problemas de zona horaria
+    private String fechaReserva;
 
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private Tipo_Entrada tipoEntrada; // Puede ser "NORMAL" o "DIA_ESPECTADOR"
+    private Tipo_Entrada tipoEntrada;
 
     public LocalDateTime getFechaProyeccion() { return null; }
 
     public void setPrecioEntrada(Precio_Entrada bigDecimal) {}
-
-
 }
