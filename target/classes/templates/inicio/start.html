@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+
+    <meta charset="UTF-8">
+    <title>Inicio | Cartelera de Cine</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f9ff;
+            text-align: center;
+            padding-top: 50px;
+        }
+
+        h1 {
+            color: #004080;
+        }
+
+        .boton {
+            display: inline-block;
+            background-color: #007bff;
+            color: white;
+            padding: 12px 24px;
+            text-decoration: none;
+            border-radius: 6px;
+            font-size: 18px;
+            transition: background-color 0.3s;
+            margin-top: 20px;
+        }
+
+        .boton:hover {
+            background-color: #0056b3;
+        }
+
+        footer {
+            margin-top: 40px;
+            font-size: 14px;
+            color: #999;
+        }
+    </style>
+
+
+</head>
+<body>
+
+<h1>🎬 Bienvenido a la Cartelera de Cine</h1>
+
+<!-- Contenedor de la imagen -->
+<div class="imagen-container">
+    <img src="/imagen/logo.png" alt="Cinesa">
+</div>
+
+<!-- Enlace a la lista de películas -->
+<a class="boton" th:href="@{/peliculas}">Ver Películas</a>
+
+<!-- Enlace para añadir una nueva película -->
+<a class="boton" th:href="@{/peliculas/nueva}">Añadir Nueva Película</a>
+
+<footer>
+    Proyecto desarrollado por Javier Cachón Garrido © 2025
+</footer>
+
+</body>
+</html>
+

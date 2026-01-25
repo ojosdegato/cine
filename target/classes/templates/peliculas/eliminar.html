@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Eliminar Película</title>
+
+    <style>
+        :root {
+          --blue: #007bff;
+          --blue-dark: #0056b3;
+          --bg-light: #f7faff;
+          --text-main: #1a1a1a;
+        }
+
+        body {
+          font-family: Arial, sans-serif;
+          background-color: var(--bg-light);
+          margin: 40px;
+          color: var(--text-main);
+        }
+
+        h1 {
+          color: var(--blue-dark);
+          text-align: center;
+        }
+
+        .card {
+          max-width: 700px;
+          margin: 0 auto;
+          background: #fff;
+          border-radius: 8px;
+          box-shadow: 0 0 12px rgba(0, 0, 0, .15);
+          padding: 30px 40px;
+        }
+
+        table {
+          width: 100%;
+          border-collapse: collapse;
+          margin-bottom: 30px;
+        }
+
+        th, td {
+          text-align: left;
+          padding: 10px;
+          border-bottom: 1px solid #ddd;
+        }
+
+        th {
+          background-color: var(--blue);
+          color: white;
+        }
+
+        .boton {
+          display: inline-block;
+          background-color: var(--blue);
+          color: white;
+          padding: 10px 24px;
+          border: none;
+          border-radius: 5px;
+          cursor: pointer;
+          transition: background 0.3s;
+          text-decoration: none;
+          font-size: 16px;
+        }
+
+        .boton:hover {
+          background-color: var(--blue-dark);
+        }
+
+        .boton.secundario {
+          background: #ccc;
+          color: #333;
+          margin-left: 10px;
+        }
+
+        .boton.secundario:hover {
+          background: #b4b4b4;
+        }
+    </style>
+</head>
+<body>
+
+<h1>¿Confirmar eliminación de la película?</h1>
+
+<div class="card">
+    <table>
+        <tr>
+            <th>Título</th>
+            <td th:text="${pelicula.titulo}">Título</td>
+        </tr>
+        <tr>
+            <th>Género</th>
+            <td th:text="${pelicula.genero}">Género</td>
+        </tr>
+        <tr>
+            <th>Duración</th>
+            <td th:text="${pelicula.duracion + ' min'}">120 min</td>
+        </tr>
+        <tr>
+            <th>Edad</th>
+            <td th:text="${pelicula.clasificacionEdad + '+'}">13+</td>
+        </tr>
+        <tr>
+            <th>Director</th>
+            <td th:text="${pelicula.director}">Director</td>
+        </tr>
+        <tr>
+            <th>Productor</th>
+            <td th:text="${pelicula.productor}">Productor</td>
+        </tr>
+        <tr>
+            <th>Año</th>
+            <td th:text="${pelicula.anio}">2025</td>
+        </tr>
+    </table>
+
+    <form th:action="@{'/peliculas/eliminar/' + ${pelicula.id}}" method="post">
+        <button type="submit" class="boton">🗑️ Sí, eliminar</button>
+        <a th:href="@{/peliculas}" class="boton secundario">↩️ Cancelar</a>
+    </form>
+</div>
+
+</body>
+</html>

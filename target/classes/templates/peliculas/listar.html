@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Listado de Películas</title>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f7faff;
+      margin: 40px;
+      color: #1a1a1a;
+    }
+
+    h1 {
+      color: #004080;
+      text-align: center;
+    }
+
+    .boton {
+      display: inline-block;
+      background-color: #007bff;
+      color: white;
+      padding: 10px 20px;
+      margin-bottom: 20px;
+      text-decoration: none;
+      border-radius: 5px;
+      transition: background-color 0.3s;
+    }
+
+    .boton:hover {
+      background-color: #0056b3;
+    }
+
+    .buscador {
+      text-align: center;
+      margin: 30px 0;
+    }
+
+    .buscador input[type="text"] {
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 16px;
+      width: 200px;
+    }
+
+    .buscador label {
+      font-weight: bold;
+      margin-right: 10px;
+      font-size: 16px;
+    }
+
+    .buscador button {
+      background-color: #007bff;
+      color: white;
+      padding: 8px 16px;
+      font-size: 16px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      margin-left: 10px;
+    }
+
+    .buscador button:hover {
+      background-color: #0056b3;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background-color: white;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    th, td {
+      padding: 12px 16px;
+      border-bottom: 1px solid #ddd;
+    }
+
+    th {
+      background-color: #007bff;
+      color: #003366;
+      font-weight: bold;
+    }
+
+    td a {
+      color: #007bff;
+      font-weight: bold;
+    }
+
+    td a:hover {
+      color: #0056b3;
+      text-decoration: underline;
+    }
+
+    .acciones a {
+      margin: 0 5px;
+    }
+
+    <!-- Botón ayuda CCS -->
+
+    .help-container {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 1000;
+}
+
+.help-button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  font-size: 24px;
+  cursor: pointer;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  transition: background-color 0.3s;
+
+}
+
+.help-button:hover {
+  background-color: #0056b3;
+}
+
+.help-popup {
+  display: none;
+  position: absolute;
+  bottom: 70px;
+  right: 0;
+  width: 300px;
+  background-color: #fff;
+  color: #333;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.25);
+  z-index: 1001;
+}
+
+.help-popup h2 {
+  margin-top: 0;
+}
+
+.close-btn {
+  position: absolute;
+  top: 6px;
+  right: 12px;
+  font-size: 20px;
+  cursor: pointer;
+  color: #888;
+}
+
+.close-btn:hover {
+  color: #000;
+}
+
+.imagen-container img {
+  display: block;
+  margin: 20px auto;
+  width: 150px;
+  height: auto;
+}
+
+
+  </style>
+</head>
+
+<body>
+
+<h1>Listado de Películas</h1>
+<!-- Contenedor de la imagen -->
+
+<div class="imagen-container">
+  <img src="/imagen/logo.png" alt="Cinesa">
+</div>
+
+<!-- Botón de ayuda flotante -->
+<div class="help-container">
+  <button id="helpBtn" class="help-button">i</button>
+
+  <div id="helpPopup" class="help-popup">
+    <span class="close-btn" onclick="document.getElementById('helpPopup').style.display='none'">&times;</span>
+    <h2>¿Necesitas ayuda?</h2>
+    <p>Aquí puedes añadir una nueva película, volver al inicio, filtrar por género todas las películas (sensible
+      a mayúsculas, acentos, minúsculas y espacios en el género), puedes editar película, ver detalles de una película,
+      eliminar película. Aquí se muestra la tabla completa de todas las películas del cine</p>
+  </div>
+</div>
+
+<div style="text-align: right;">
+  <a class="boton" th:href="@{/peliculas/nueva}">➕ Nueva Película</a>
+  <a class="boton" th:href="@{/inicio/start}">Volver a la Cartelera</a>
+</div>
+
+<div class="buscador">
+  <form th:action="@{/peliculas/buscar}" method="get">
+    <label for="genero">Buscar por género:</label>
+    <input type="text" id="genero" name="genero">
+    <button type="submit">Buscar</button>
+  </form>
+</div>
+
+<table>
+  <thead>
+  <tr>
+    <th>Título</th>
+    <th>Género</th>
+    <th>Duración</th>
+    <th>Edad</th>
+    <th>Director</th>
+    <th>Productor</th>
+    <th>Año</th>
+    <th>Acciones</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr th:each="p : ${peliculas}">
+    <td th:text="${p.titulo}">Título</td>
+    <td th:text="${p.genero}">Género</td>
+    <td th:text="${p.duracion + ' min'}">Duración</td>
+    <td th:text="${p.clasificacionEdad + '+'}">Edad</td>
+    <td th:text="${p.director}">Director</td>
+    <td th:text="${p.productor}">Productor</td>
+    <td th:text="${p.anio}">Año</td>
+    <td class="acciones">
+      <a th:href="@{'/peliculas/editar/' + ${p.id}}">✏️ Editar</a>
+      <a th:href="@{'/peliculas/detalles/' + ${p.id}}">🔍 Ver Detalles</a>
+      <a th:href="@{'/peliculas/eliminar/' + ${p.id}}" onclick="return confirm('¿Eliminar esta película?')">🗑️ Eliminar</a>
+    </td>
+  </tr>
+  </tbody>
+</table>
+
+<!-- Botón de ayuda JS -->
+<script>
+  document.getElementById('helpBtn').addEventListener('click', function() {
+    const popup = document.getElementById('helpPopup');
+    popup.style.display = popup.style.display === 'block' ? 'none' : 'block';
+  });
+</script>
+
+
+</body>
+</html>
